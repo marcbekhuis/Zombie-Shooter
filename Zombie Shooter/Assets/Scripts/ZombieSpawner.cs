@@ -25,8 +25,10 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (Time.time > cooldown)
         {
+            map.
             Vector3 location = new Vector3(2.1f * (int)Random.Range(0, map.mapSize.x) - (2.1f * (map.mapSize.x / 2)), 0, 2.1f * (int)Random.Range(0,map.mapSize.y) - (2.1f * (map.mapSize.y / 2)));
             Instantiate(zombie, location, new Quaternion(0, 0, 0, 0), this.transform);
+            cooldown = Time.time + delay;
         }
     }
 }
