@@ -25,10 +25,18 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (Time.time > cooldown)
         {
-            map.
-            Vector3 location = new Vector3(2.1f * (int)Random.Range(0, map.mapSize.x) - (2.1f * (map.mapSize.x / 2)), 0, 2.1f * (int)Random.Range(0,map.mapSize.y) - (2.1f * (map.mapSize.y / 2)));
-            Instantiate(zombie, location, new Quaternion(0, 0, 0, 0), this.transform);
-            cooldown = Time.time + delay;
+            bool spawned = false;
+            do
+            {
+                Map.Tile spawnTile = map.tiles[Random.Range(0, map.tiles.Count)];
+                if (!spawnTile.wallUp && !spawnTile.wallMovingDown && !spawnTile.wallMovingUp)
+                {
+                    Instantiate(zombie, new Vector3(spawnTile.location.x, 1, spawnTile.location.z), new Quaternion(0, 0, 0, 0), this.transform);
+                    cooldown = Time.time + delay;
+                    spawned = true;
+                }
+            }
+            while (!spawned);
         }
     }
 }
