@@ -31,7 +31,10 @@ public class Bullet : MonoBehaviour
         if (enemy != null)//In other words: Does the colliding object have a Enemy component?
         {
             enemy.ReceiveDamage(_gunDamage);
-            Destroy(gameObject);//Destroy bullet on first detection, otherwise a single bullet may do damage twice (or even more times)
+        }
+        if (!pOther.CompareTag("Player"))
+        {
+            Destroy(gameObject);//Destroy bullet on first detection, otherwise a single bullet may do damage twice (or even more times
         }
     }
 }

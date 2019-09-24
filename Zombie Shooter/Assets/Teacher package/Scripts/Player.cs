@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Gun _gun = null;
     [SerializeField] private float _movementSpeed = 10.0f;
+    [SerializeField] private Rigidbody RB;
 
     private Camera _camera;//Caching a reference to the camera since we frequently need it (Update) and Camera.main is a costly operation 
 
@@ -29,11 +30,8 @@ public class Player : MonoBehaviour
         //Get a normalized movement direction
         Vector2 movementInput = RegisterMovement();
 
-        //Change a 2D Vector to a 3D Vector for this particular setup
-        Vector3 translation = new Vector3(movementInput.x, 0, movementInput.y);
-
         //Apply consistent(not fps dependent, aka use of Time.deltaTime) displacement with a variable speed property(_movementSpeed)
-        transform.Translate(translation * _movementSpeed * Time.deltaTime, Space.World);
+        RB.velocity = new Vector3(movementInput.x * _movementSpeed, RB.velocity.y, movementInput.y * _movementSpeed);
     }
 
     private Vector2 RegisterMovement()

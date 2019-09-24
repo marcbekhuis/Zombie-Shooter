@@ -36,6 +36,9 @@ public class ZombieSpawner : MonoBehaviour
                 {
                     GameObject spawnedZombie = Instantiate(zombie, new Vector3(spawnTile.location.x, 1, spawnTile.location.z), new Quaternion(0, 0, 0, 0), this.transform);
                     spawnedZombie.GetComponent<AIMove>().player = player;
+                    spawnedZombie.GetComponent<Enemy>().map = map;
+
+                    map.zombies.Add(spawnedZombie.transform);
 
                     cooldown = Time.time + delay;
                     spawned = true;

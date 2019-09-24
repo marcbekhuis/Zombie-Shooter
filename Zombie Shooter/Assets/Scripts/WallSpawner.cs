@@ -24,18 +24,17 @@ public class WallSpawner : MonoBehaviour
 
     void SpawnWall(int x, int y)
     {
-        if (Random.Range(0, 20) < 5)
+        Vector2 location = new Vector3(2.1f * x - (2.1f * (map.mapSize.x / 2)), 2.1f * y - (2.1f * (map.mapSize.y / 2)));
+        if(Random.Range(0, 20) < 15 || Vector2.Distance(new Vector2(map.player.position.x, map.player.position.z), location) < 3)
         {
-            Vector3 location = new Vector3(2.1f * x - (2.1f * (map.mapSize.x / 2)), 0, 2.1f * y - (2.1f * (map.mapSize.y / 2)));
-            GameObject spawnedWall = Instantiate(wall, location, new Quaternion(0, 0, 0, 0), this.transform);
-            map.amountOfWallsUp++;
-            map.tiles.Add(new Map.Tile(spawnedWall,location,true,false,false));
+            GameObject spawnedWall = Instantiate(wall, new Vector3(location.x, -1.95f, location.y), new Quaternion(0, 0, 0, 0), this.transform);
+            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, -1.95f, location.y), false,false,false));
         }
         else
         {
-            Vector3 location = new Vector3(2.1f * x - (2.1f * (map.mapSize.x / 2)), -1.95f, 2.1f * y - (2.1f * (map.mapSize.y / 2)));
-            GameObject spawnedWall = Instantiate(wall, location, new Quaternion(0, 0, 0, 0), this.transform);
-            map.tiles.Add(new Map.Tile(spawnedWall, location, false,false,false));
+            GameObject spawnedWall = Instantiate(wall, new Vector3(location.x, 0, location.y), new Quaternion(0, 0, 0, 0), this.transform);
+            map.amountOfWallsUp++;
+            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, 0, location.y), true, false, false));
         }
     }
 }

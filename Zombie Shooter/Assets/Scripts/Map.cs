@@ -7,6 +7,9 @@ public class Map : MonoBehaviour
     public List<Tile> tiles = new List<Tile>();
     public int amountOfWallsUp = 0;
 
+    public Transform player;
+    public List<Transform> zombies = new List<Transform>();
+
     public Vector2 mapSize;
 
     [SerializeField]
@@ -47,16 +50,29 @@ public class Map : MonoBehaviour
             int wallsGoingUp = 0; 
             foreach (var tile in tiles)
             {
-                if (tile.wallUp && !tile.wallMovingDown)
+                bool zombieInRange = false;
+                foreach (var zombie in zombies)
                 {
-                    tile.wallUp = false;
-                    tile.wallMovingDown = true;
+                    if (Vector2.Distance(new Vector2(zombie.position.x, zombie.position.z), new Vector2(tile.location.x, tile.location.z)) < 2)
+                    {
+                        zombieInRange = true;
+                        break;
+                    }
                 }
-                else if (Random.Range(0, 20) < 5 && (wallsGoingUp <= amountOfWallsUp && !tile.wallMovingUp))
+
+                if (Vector2.Distance(new Vector2(player.position.x, player.position.z), new Vector2(tile.location.x, tile.location.z)) > 3 && !zombieInRange)
                 {
-                    tile.wallUp = true;
-                    tile.wallMovingUp = true;
-                    wallsGoingUp++;
+                    if (tile.wallUp && !tile.wallMovingDown)
+                    {
+                        tile.wallUp = false;
+                        tile.wallMovingDown = true;
+                    }
+                    else if (Random.Range(0, 20) < 5 && (wallsGoingUp <= amountOfWallsUp && !tile.wallMovingUp))
+                    {
+                        tile.wallUp = true;
+                        tile.wallMovingUp = true;
+                        wallsGoingUp++;
+                    }
                 }
             }
             cooldown = Time.time + delay;

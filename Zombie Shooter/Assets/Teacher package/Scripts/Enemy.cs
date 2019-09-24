@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Collider))]
 public class Enemy : MonoBehaviour
 {
+    public Map map;
+
     [SerializeField] private int _health;
 
     private void Awake()
@@ -20,6 +22,7 @@ public class Enemy : MonoBehaviour
 
         if (_health >= 0)
         {
+            map.zombies.Remove(this.transform);
             Destroy(gameObject);
         }
     }

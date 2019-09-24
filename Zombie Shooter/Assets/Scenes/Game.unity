@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3116884715024081897, guid: 3f616da5fdf67474caf8ba6a77968f80,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3116884715024081900, guid: 3f616da5fdf67474caf8ba6a77968f80,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -186,6 +191,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116884714289667550, guid: 3f616da5fdf67474caf8ba6a77968f80,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116884713958649754, guid: 3f616da5fdf67474caf8ba6a77968f80,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610365129, guid: 3f616da5fdf67474caf8ba6a77968f80, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f616da5fdf67474caf8ba6a77968f80, type: 3}
@@ -521,6 +540,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfWallsUp: 0
+  player: {fileID: 225063406}
+  zombies: []
   mapSize: {x: 21, y: 21}
   delay: 5
   speed: 5
