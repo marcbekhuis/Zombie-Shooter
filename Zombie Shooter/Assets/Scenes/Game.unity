@@ -108,7 +108,7 @@ NavMeshSettings:
     agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.8
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -189,6 +189,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f616da5fdf67474caf8ba6a77968f80, type: 3}
+--- !u!4 &225063406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3116884715024081900, guid: 3f616da5fdf67474caf8ba6a77968f80,
+    type: 3}
+  m_PrefabInstance: {fileID: 225063405}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &259814574
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,7 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfWallsUp: 0
   mapSize: {x: 21, y: 21}
-  delay: 60
+  delay: 5
   speed: 5
 --- !u!114 &1743670781
 MonoBehaviour:
@@ -532,7 +538,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 1743670780}
   zombie: {fileID: 4085115936439703390, guid: 4f9e40ecf6ea32f46bdfedbc8ec01016, type: 3}
-  delay: 5
+  player: {fileID: 225063406}
+  delay: 2
 --- !u!1 &1816319589
 GameObject:
   m_ObjectHideFlags: 0

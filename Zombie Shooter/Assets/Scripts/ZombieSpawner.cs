@@ -11,6 +11,9 @@ public class ZombieSpawner : MonoBehaviour
     private GameObject zombie;
 
     [SerializeField]
+    private Transform player;
+
+    [SerializeField]
     private float delay = 5;
 
     private float cooldown;
@@ -31,7 +34,9 @@ public class ZombieSpawner : MonoBehaviour
                 Map.Tile spawnTile = map.tiles[Random.Range(0, map.tiles.Count)];
                 if (!spawnTile.wallUp && !spawnTile.wallMovingDown && !spawnTile.wallMovingUp)
                 {
-                    Instantiate(zombie, new Vector3(spawnTile.location.x, 1, spawnTile.location.z), new Quaternion(0, 0, 0, 0), this.transform);
+                    GameObject spawnedZombie = Instantiate(zombie, new Vector3(spawnTile.location.x, 1, spawnTile.location.z), new Quaternion(0, 0, 0, 0), this.transform);
+                    spawnedZombie.GetComponent<AIMove>().player = player;
+
                     cooldown = Time.time + delay;
                     spawned = true;
                 }
