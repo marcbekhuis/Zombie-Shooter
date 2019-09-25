@@ -28,13 +28,17 @@ public class WallSpawner : MonoBehaviour
         if(Random.Range(0, 20) < 15 || Vector2.Distance(new Vector2(map.player.position.x, map.player.position.z), location) < 3)
         {
             GameObject spawnedWall = Instantiate(wall, new Vector3(location.x, -1.95f, location.y), new Quaternion(0, 0, 0, 0), this.transform);
-            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, -1.95f, location.y), false,false,false));
+            Material material = spawnedWall.GetComponent<MeshRenderer>().material;
+            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, -1.95f, location.y), false,false,false,material));
+            material.color = new Color(0,0,1);
         }
         else
         {
             GameObject spawnedWall = Instantiate(wall, new Vector3(location.x, 0, location.y), new Quaternion(0, 0, 0, 0), this.transform);
             map.amountOfWallsUp++;
-            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, 0, location.y), true, false, false));
+            Material material = spawnedWall.GetComponent<MeshRenderer>().material;
+            map.tiles.Add(new Map.Tile(spawnedWall, new Vector3(location.x, 0, location.y), true, false, false, material));
+            material.color = new Color(0, 0, 0.1f);
         }
     }
 }

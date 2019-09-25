@@ -17,7 +17,7 @@ public class AIMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         navMeshAgent.SetDestination(player.position);
     }

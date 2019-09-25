@@ -23,19 +23,21 @@ public class Map : MonoBehaviour
     [SerializeField]
     public class Tile
     {
-        public Tile(GameObject Wall,Vector3 Location, bool WallUp, bool WallMovingUp, bool WallMovingDown)
+        public Tile(GameObject Wall,Vector3 Location, bool WallUp, bool WallMovingUp, bool WallMovingDown, Material Material)
         {
             wall = Wall;
             location = Location;
             wallUp = WallUp;
             wallMovingDown = WallMovingDown;
             wallMovingUp = WallMovingUp;
+            material = Material;
         }
         public GameObject wall;
         public Vector3 location;
         public bool wallUp;
         public bool wallMovingUp;
         public bool wallMovingDown;
+        public Material material;
     }
 
     private void Start()
@@ -43,7 +45,7 @@ public class Map : MonoBehaviour
         cooldown = Time.time + delay;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Time.time > cooldown)
         {
@@ -60,19 +62,16 @@ public class Map : MonoBehaviour
                     }
                 }
 
-                if (Vector2.Distance(new Vector2(player.position.x, player.position.z), new Vector2(tile.location.x, tile.location.z)) > 3 && !zombieInRange)
+                if (tile.wallUp && !tile.wallMovingDown)
                 {
-                    if (tile.wallUp && !tile.wallMovingDown)
-                    {
-                        tile.wallUp = false;
-                        tile.wallMovingDown = true;
-                    }
-                    else if (Random.Range(0, 20) < 5 && (wallsGoingUp <= amountOfWallsUp && !tile.wallMovingUp))
-                    {
-                        tile.wallUp = true;
-                        tile.wallMovingUp = true;
-                        wallsGoingUp++;
-                    }
+                    tile.wallUp = false;
+                    tile.wallMovingDown = true;
+                }
+                else if (Random.Range(0, 20) < 5 && (wallsGoingUp <= amountOfWallsUp && !tile.wallMovingUp) && Vector2.Distance(new Vector2(player.position.x, player.position.z), new Vector2(tile.location.x, tile.location.z)) > 3 && !zombieInRange)
+                {
+                    tile.wallUp = true;
+                    tile.wallMovingUp = true;
+                    wallsGoingUp++;
                 }
             }
             cooldown = Time.time + delay;
@@ -88,6 +87,7 @@ public class Map : MonoBehaviour
             {
 
                 tile.wall.transform.position = new Vector3(tile.wall.transform.position.x, Mathf.Clamp(tile.wall.transform.position.y - Time.deltaTime * speed, -1.95f, 0), tile.wall.transform.position.z);
+                tile.material.color = new Color(0, 0, Mathf.Clamp(tile.material.color.b + Time.deltaTime * speed, 0.1f, 1));
                 if (tile.wall.transform.position.y <= -1.95f)
                 {
                     tile.wallMovingDown = false;
@@ -96,6 +96,7 @@ public class Map : MonoBehaviour
             else if (tile.wallMovingUp)
             {
                 tile.wall.transform.position = new Vector3(tile.wall.transform.position.x, Mathf.Clamp(tile.wall.transform.position.y + Time.deltaTime * speed, -1.95f, 0), tile.wall.transform.position.z);
+                tile.material.color = new Color(0, 0, Mathf.Clamp(tile.material.color.b - Time.deltaTime * speed, 0.1f, 1));
                 if (tile.wall.transform.position.y >= 0)
                 {
                     tile.wallMovingUp = false;
