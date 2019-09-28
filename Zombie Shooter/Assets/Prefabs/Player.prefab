@@ -229,6 +229,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   gameOverMenu: {fileID: 0}
+  dieBloodParticle: {fileID: 6077268005641988026, guid: 5c62c05b3d3102b4c9ab2437a2bc452e,
+    type: 3}
 --- !u!114 &6357135264238568439
 MonoBehaviour:
   m_ObjectHideFlags: 0

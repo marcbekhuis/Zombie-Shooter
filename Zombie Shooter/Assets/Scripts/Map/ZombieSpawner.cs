@@ -51,7 +51,7 @@ public class ZombieSpawner : MonoBehaviour
             if (Time.time > cooldown)
             {
                 bool spawned = false;
-                do
+                for(int maxLoops = 0; maxLoops < 100; maxLoops++)
                 {
                     Map.Tile spawnTile = map.tiles[Random.Range(0, map.tiles.Count)];
                     if (Vector2.Distance(new Vector2(player.position.x, player.position.z), spawnTile.location) > 8 && Vector2.Distance(new Vector2(player.position.x, player.position.z), spawnTile.location) < 50)
@@ -59,23 +59,25 @@ public class ZombieSpawner : MonoBehaviour
                         // The max random number increase as you survive making the change of a more diffecult zombie to spawn.
                         if (!spawnTile.wallUp && !spawnTile.wallMovingDown && !spawnTile.wallMovingUp)
                         {
-                            float randomNumber = Random.Range(0, Time.timeScale);
+                            float randomNumber = Random.Range(0, Time.timeSinceLevelLoad);
                             if (randomNumber <= 10)
                             {
                                 spawned = SpawnZombie(easyZombie, spawnTile);
+                                break;
                             }
                             else if (randomNumber <= 20)
                             {
                                 spawned = SpawnZombie(mediumZombie, spawnTile);
+                                break;
                             }
                             else if (randomNumber <= 30)
                             {
                                 spawned = SpawnZombie(hardZombie, spawnTile);
+                                break;
                             }
                         }
                     }
                 }
-                while (!spawned);
             }
         }
     }

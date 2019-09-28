@@ -20,21 +20,29 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int scorePoints;
 
+    [SerializeField]
+    private GameObject bulletBloodParticle;
+
+    [SerializeField]
+    private GameObject dieBloodParticle;
+
     private void Awake()
     {
         //Asserting for positive health
         Debug.Assert(_health > 0, "Enemies also deserve a bit of health...");
     }
 
-    public void ReceiveDamage(int pDamage)
+    public void ReceiveDamage(int pDamage, Transform bulletLocation)
     {
         //Asserting for positive damage value, bullets shouldn't heal enemies :P
         Debug.Assert(pDamage > 0, "You can't do negative or zero damage...");
 
         _health -= pDamage;
+        Instantiate(bulletBloodParticle, bulletLocation.position, bulletLocation.rotation);
 
         if (_health <= 0)
         {
+            Instantiate(dieBloodParticle, this.transform.position, this.transform.rotation);
             scoreSystem.Addscore(scorePoints);
             map.zombies.Remove(this.transform);
             Destroy(gameObject);
@@ -52,6 +60,7 @@ public class Enemy : MonoBehaviour
                 _health -= 2;
                 if (_health <= 0)
                 {
+                    Instantiate(dieBloodParticle, this.transform.position, this.transform.rotation);
                     map.zombies.Remove(this.transform);
                     Destroy(gameObject);
                 }

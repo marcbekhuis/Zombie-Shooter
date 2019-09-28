@@ -15,6 +15,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private GameObject gameOverMenu;
 
+    [SerializeField]
+    private GameObject dieBloodParticle;
+
     private int health = 3;
 
     private void Start()
@@ -28,6 +31,8 @@ public class PlayerHealth : MonoBehaviour
         health = Mathf.Clamp(health - lostHealth, 0, 100);
         if (health == 0)
         {
+            Destroy(this.GetComponent<MeshRenderer>());
+            Instantiate(dieBloodParticle, this.transform.position, this.transform.rotation);
             gameOver = true;
             gameOverMenu.SetActive(true);
         }

@@ -114,6 +114,10 @@ MonoBehaviour:
   _health: 6
   damage: 1
   scorePoints: 6
+  bulletBloodParticle: {fileID: 6077268005641988026, guid: 6495d36d6b29d654ca1478cc32e86a84,
+    type: 3}
+  dieBloodParticle: {fileID: 6077268005641988026, guid: 5c62c05b3d3102b4c9ab2437a2bc452e,
+    type: 3}
 --- !u!195 &6369860159792252762
 NavMeshAgent:
   m_ObjectHideFlags: 0

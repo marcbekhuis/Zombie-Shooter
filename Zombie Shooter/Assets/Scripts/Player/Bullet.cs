@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         Enemy enemy = pOther.GetComponent<Enemy>();
         if (enemy != null)//In other words: Does the colliding object have a Enemy component?
         {
-            enemy.ReceiveDamage(_gunDamage);
+            enemy.ReceiveDamage(_gunDamage, this.transform);
         }
         if (!pOther.CompareTag("Player"))
         {

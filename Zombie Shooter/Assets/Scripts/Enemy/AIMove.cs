@@ -17,7 +17,7 @@ public class AIMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         // Makes the AI move to the player or to it self when the player lost or paused the game.
         if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused)
