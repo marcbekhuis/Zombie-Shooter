@@ -112,16 +112,6 @@ public class PlayerV2 : MonoBehaviour
     {
         vertical += Input.GetAxis("Mouse X") * cameraSpeed;
         horizontal -= Input.GetAxis("Mouse Y") * cameraSpeed;
-        if (vertical >= 80)
-        {
-            vertical = 80;
-            RB.transform.eulerAngles = new Vector3(RB.transform.eulerAngles.x, RB.transform.eulerAngles.y + Input.GetAxis("Mouse X") * cameraSpeed,0);
-        }
-        else if (vertical <= -80)
-        {
-            vertical = -80;
-            RB.transform.eulerAngles = new Vector3(RB.transform.eulerAngles.x, RB.transform.eulerAngles.y + Input.GetAxis("Mouse X") * cameraSpeed,0);
-        }
         if (horizontal >= 50)
         {
             horizontal = 50;
@@ -130,7 +120,8 @@ public class PlayerV2 : MonoBehaviour
         {
             horizontal = -80;
         }
-        cameraRotation.eulerAngles = new Vector3(horizontal,vertical,0);
+        cameraRotation.localEulerAngles = new Vector3(horizontal,0,0);
+        RB.transform.eulerAngles = new Vector3(RB.transform.eulerAngles.x,vertical, 0);
     }
 
 }
