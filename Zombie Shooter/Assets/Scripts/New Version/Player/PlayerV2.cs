@@ -51,7 +51,7 @@ public class PlayerV2 : MonoBehaviour
         Vector2 movementInput = RegisterMovement();
 
         //Apply consistent(not fps dependent, aka use of Time.deltaTime) displacement with a variable speed property(_movementSpeed)
-        RB.velocity = RB.transform.rotation * new Vector3(movementInput.x * _movementSpeed, 0, movementInput.y * _movementSpeed);
+        RB.velocity = RB.transform.rotation * new Vector3(movementInput.x * _movementSpeed, RB.velocity.y, movementInput.y * _movementSpeed);
     }
 
     private Vector2 RegisterMovement()

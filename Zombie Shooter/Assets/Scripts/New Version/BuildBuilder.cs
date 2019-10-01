@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class BuildBuilder : MonoBehaviour
 {
-    [SerializeField]
-    private int floors;
+    public int maxFloors = 3;
 
-    [SerializeField]
-    Vector2 size;
+    public Vector2Int size = new Vector2Int (2,2);
 
     [SerializeField]
     private GameObject floor;
@@ -25,6 +23,7 @@ public class BuildBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int floors = Random.Range(2,maxFloors);
         for (int currentFloor = 0; currentFloor < floors; currentFloor++)
         {
             GameObject currentFloorObject = Instantiate(new GameObject(), new Vector3(this.transform.position.x, 5.75f * currentFloor, this.transform.position.z), new Quaternion(0,0,0,0), this.transform);
