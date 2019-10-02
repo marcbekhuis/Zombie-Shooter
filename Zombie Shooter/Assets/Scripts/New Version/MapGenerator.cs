@@ -11,17 +11,23 @@ public class MapGenerator : MonoBehaviour
     private GameObject grass;
 
     [SerializeField]
+    private GameObject asphalt;
+
+    [SerializeField]
     private GameObject building;
 
     [SerializeField]
     private int buildingMaxFloors = 3;
+
+    [SerializeField]
+    private Vector2Int minMaxIslandPartSize = new Vector2Int(5,12);
 
     private bool navMeshRebuild = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector2Int islandSize = new Vector2Int(Random.Range(3,13), Random.Range(3, 13));
+        Vector2Int islandSize = new Vector2Int(Random.Range(5,13), Random.Range(5, 13));
         Debug.Log(islandSize);
         GameObject[,] islandParts = new GameObject[islandSize.x,islandSize.y];
         for (int x = 0; x < islandSize.x ; x++)
@@ -30,54 +36,124 @@ public class MapGenerator : MonoBehaviour
             {
                 if (x == 0 && y == 0)
                 {
-                    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
+                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
                     Vector3 location = new Vector3(this.transform.position.x, 0, this.transform.position.z);
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
                 }
                 else if (x != 0 && y == 0)
                 {
-                    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
+                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
                     Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + size.x / 2 + islandParts[x - 1, y].transform.localScale.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z - (((float)size.z / 2f) - (islandParts[x - 1, y].transform.localScale.z / 2f)));
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
                 }
                 else if (x == 0 && y != 0)
                 {
-                    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
+
+                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
                     Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x - (((float)size.x / 2f) - (islandParts[x, y - 1].transform.localScale.x / 2f)), 0, islandParts[x, y - 1].transform.localPosition.z + size.z / 2 + islandParts[x, y - 1].transform.localScale.z / 2);
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
+
                 }
                 else if (x  < islandSize.x - 1 && y < islandSize.y - 1) 
                 {
                     Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, islandParts[x - 1,y].transform.localScale.z);
                     Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x - 1, y].transform.localPosition.z);
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
                 }
                 else if(x == islandSize.x - 1)
                 {
-                    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, islandParts[x - 1, y].transform.localScale.z);
+                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, islandParts[x - 1, y].transform.localScale.z);
                     Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + islandParts[x - 1, y].transform.localScale.x / 2 + size.x /2, 0, islandParts[x - 1, y].transform.localPosition.z);
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
                 }
                 else if (y == islandSize.y - 1)
                 {
-                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, Random.Range(4, 8) * 5);
+                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
                     Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x, y - 1].transform.localPosition.z + islandParts[x, y - 1].transform.localScale.z / 2 + size.z / 2);
-                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                    islandParts[x, y].transform.localScale = size;
-                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                    if (Random.Range(0, 100) < 15)
+                    {
+                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                    }
+                    else
+                    {
+                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        islandParts[x, y].transform.localScale = size;
+                        if (Random.Range(0, 100) < 95)
+                        {
+                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                        }
+                    }
                 }
             }
         }
+        //rebuildNavMesh.transform.position = islandParts[islandSize.x / 2, islandSize.y / 2].transform.position;
+        //rebuildNavMesh.ResizeNavMesh(new Vector3(islandParts[0, islandSize.y / 2].transform.position.x + islandParts[islandSize.x - 1, islandSize.y / 2].transform.position.x + 100, 110, islandParts[islandSize.x / 2, 0].transform.position.x + islandParts[islandSize.x / 2, islandSize.y - 1].transform.position.x + 100));
     }
 
     // Update is called once per frame

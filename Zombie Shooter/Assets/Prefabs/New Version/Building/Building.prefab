@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1597752750697687869}
   - component: {fileID: 1597752750697687868}
+  - component: {fileID: 1484014970004808615}
+  - component: {fileID: 2934630458610582763}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -43,9 +45,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9a5c61a14a16c428b893d7de236fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floors: 0
-  size: {x: 0, y: 0}
+  maxFloors: 3
+  size: {x: 3, y: 3}
   floor: {fileID: 8906063728521325506, guid: a6951b05f4b3ff74f949ae5d91164f39, type: 3}
   ceiling: {fileID: 2802849898651766911, guid: 7e806c381a9cb8644992c6e6829b358f, type: 3}
   doorWay: {fileID: 4345373270865279781, guid: 05f0d6cac0cda6b4e924db78b6512684, type: 3}
   window: {fileID: 5634685214675042468, guid: 6294a4fa907b10f49bbd3bd282d05c7d, type: 3}
+  wallMaterial: {fileID: 2100000, guid: 4b8735e708be11f4d91249e05dd80930, type: 2}
+--- !u!33 &1484014970004808615
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597752750697687843}
+  m_Mesh: {fileID: 0}
+--- !u!23 &2934630458610582763
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597752750697687843}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b8735e708be11f4d91249e05dd80930, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

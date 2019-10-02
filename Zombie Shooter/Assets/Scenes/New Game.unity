@@ -852,9 +852,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rebuildNavMesh: {fileID: 656209937}
   grass: {fileID: 8425569422409755751, guid: 3ebc11ec8c68f6c439061e2154d195a6, type: 3}
+  asphalt: {fileID: 8425569422409755751, guid: 76ef7a6ff6781f546b22238031b77b59, type: 3}
   building: {fileID: 1597752750697687843, guid: 52041977541934e438b408a717438f1b,
     type: 3}
   buildingMaxFloors: 15
+  minMaxIslandPartSize: {x: 5, y: 12}
 --- !u!4 &498159931
 Transform:
   m_ObjectHideFlags: 0
@@ -2001,7 +2003,7 @@ GameObject:
   - component: {fileID: 1067719719}
   - component: {fileID: 1067719718}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2065,7 +2067,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067719717}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1067719721
 Transform:
   m_ObjectHideFlags: 0

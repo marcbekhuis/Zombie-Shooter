@@ -15,4 +15,9 @@ public class RebuildNavMesh : MonoBehaviour
     {
         navMeshSurface.UpdateNavMesh(navMeshData);
     }
+
+    public void ResizeNavMesh(Vector3 size)
+    {
+        navMeshSurface.size = size;
+    }
 }
