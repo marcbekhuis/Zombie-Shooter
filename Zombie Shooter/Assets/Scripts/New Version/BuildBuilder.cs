@@ -28,6 +28,8 @@ public class BuildBuilder : MonoBehaviour
         {
             GameObject currentFloorObject = Instantiate(new GameObject(), new Vector3(this.transform.position.x, 5.75f * currentFloor, this.transform.position.z), new Quaternion(0,0,0,0), this.transform);
             currentFloorObject.name = "Floor " + currentFloor.ToString();
+            int maxDoors = Mathf.Clamp((size.x * 2 + size.y * 2) / 10, 1, 10);
+            int doorsPlaced = 0;
 
             for (int x = 0; x < size.x; x++)
             {
@@ -39,21 +41,55 @@ public class BuildBuilder : MonoBehaviour
 
                     if (y == 0)
                     {
-                        Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 30) < 10)
+                        {
+                            Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            doorsPlaced++;
+                        }
+                        else
+                        {
+                            Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                        }
                     }
                     else if (y == size.y - 1)
                     {
-                        Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 30) < 10)
+                        {
+                            Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            doorsPlaced++;
+                        }
+                        else
+                        {
+                            Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                        }
                     }
                     if (x == 0)
                     {
-                        GameObject justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                        justPlaced.transform.eulerAngles = new Vector3(0,90,0);
+                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 30) < 10)
+                        {
+                            GameObject justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
+                            doorsPlaced++;
+                        }
+                        else
+                        {
+                            GameObject justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
+                        }
                     }
                     else if (x == size.x - 1)
                     {
-                        GameObject justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                        justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
+                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 30) < 10)
+                        {
+                            GameObject justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
+                            doorsPlaced++;
+                        }
+                        else
+                        {
+                            GameObject justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
+                        }
                     }
                 }
             }

@@ -5,6 +5,9 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     [SerializeField]
+    private RebuildNavMesh rebuildNavMesh;
+
+    [SerializeField]
     private GameObject grass;
 
     [SerializeField]
@@ -13,10 +16,13 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private int buildingMaxFloors = 3;
 
+    private bool navMeshRebuild = false;
+
     // Start is called before the first frame update
     void Start()
     {
         Vector2Int islandSize = new Vector2Int(Random.Range(3,13), Random.Range(3, 13));
+        Debug.Log(islandSize);
         GameObject[,] islandParts = new GameObject[islandSize.x,islandSize.y];
         for (int x = 0; x < islandSize.x ; x++)
         {
@@ -33,7 +39,7 @@ public class MapGenerator : MonoBehaviour
                 else if (x != 0 && y == 0)
                 {
                     Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
-                    Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + size.x / 2 + islandParts[x - 1, y].transform.localScale.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z - (((float)size.y / 2f) - (islandParts[x - 1, y].transform.localScale.z / 2f)));
+                    Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + size.x / 2 + islandParts[x - 1, y].transform.localScale.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z - (((float)size.z / 2f) - (islandParts[x - 1, y].transform.localScale.z / 2f)));
                     islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
                     islandParts[x, y].transform.localScale = size;
                     PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
@@ -46,30 +52,42 @@ public class MapGenerator : MonoBehaviour
                     islandParts[x, y].transform.localScale = size;
                     PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
                 }
+                else if (x  < islandSize.x - 1 && y < islandSize.y - 1) 
+                {
+                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, islandParts[x - 1,y].transform.localScale.z);
+                    Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x - 1, y].transform.localPosition.z);
+                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                    islandParts[x, y].transform.localScale = size;
+                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                }
+                else if(x == islandSize.x - 1)
+                {
+                    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, islandParts[x - 1, y].transform.localScale.z);
+                    Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + islandParts[x - 1, y].transform.localScale.x / 2 + size.x /2, 0, islandParts[x - 1, y].transform.localPosition.z);
+                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                    islandParts[x, y].transform.localScale = size;
+                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                }
+                else if (y == islandSize.y - 1)
+                {
+                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, Random.Range(4, 8) * 5);
+                    Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x, y - 1].transform.localPosition.z + islandParts[x, y - 1].transform.localScale.z / 2 + size.z / 2);
+                    islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                    islandParts[x, y].transform.localScale = size;
+                    PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+                }
             }
         }
-
-        //List<GameObject> islandParts = new List<GameObject>();
-        //if (islandParts.Length == 0)
-        //{
-        //    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
-        //    Vector3 location = new Vector3(Random.Range(0, 2), 0, Random.Range(0, 2));
-        //    islandParts[2, 2] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-        //    islandParts[2, 2].transform.localScale = size;
-        //}
-        //else
-        //{
-        //    Vector3 size = new Vector3(Random.Range(4, 8) * 5, 1, Random.Range(4, 8) * 5);
-        //    Vector3 location = new Vector3(islandParts[islandParts.Count - 1].transform.position.x + size.x / 2 + islandParts[islandParts.Count - 1].transform.localScale.x / 2, 0, islandParts[islandParts.Count - 1].transform.position.z);
-        //    islandParts.Add(Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-        //    islandParts[islandParts.Count - 1].transform.localScale = size;
-        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!navMeshRebuild)
+        {
+            rebuildNavMesh.Rebuild();
+            navMeshRebuild = true;
+        }
     }
 
     void PlaceBuilding(int x, int y, Vector3 position, Vector2Int size)

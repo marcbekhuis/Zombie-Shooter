@@ -11,17 +11,8 @@ public class RebuildNavMesh : MonoBehaviour
     [SerializeField]
     NavMeshData navMeshData;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Rebuild()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            navMeshSurface.UpdateNavMesh(navMeshData);
-        }
+        navMeshSurface.UpdateNavMesh(navMeshData);
     }
 }
