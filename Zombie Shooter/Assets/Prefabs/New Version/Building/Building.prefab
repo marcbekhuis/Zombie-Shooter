@@ -52,6 +52,7 @@ MonoBehaviour:
   doorWay: {fileID: 4345373270865279781, guid: 05f0d6cac0cda6b4e924db78b6512684, type: 3}
   window: {fileID: 5634685214675042468, guid: 6294a4fa907b10f49bbd3bd282d05c7d, type: 3}
   wallMaterial: {fileID: 2100000, guid: 4b8735e708be11f4d91249e05dd80930, type: 2}
+  floorMaterial: {fileID: 2100000, guid: f8985875b681c224c97650f8a596c094, type: 2}
 --- !u!33 &1484014970004808615
 MeshFilter:
   m_ObjectHideFlags: 0

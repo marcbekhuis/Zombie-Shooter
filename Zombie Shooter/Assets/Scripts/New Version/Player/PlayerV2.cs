@@ -3,7 +3,7 @@
 public class PlayerV2 : MonoBehaviour
 {
     [SerializeField] 
-    private Gun _gun = null;
+    private GunV2 _gun = null;
 
     [SerializeField]
     private Transform gunRotation;

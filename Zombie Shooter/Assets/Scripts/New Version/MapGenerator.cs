@@ -22,11 +22,19 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private Vector2Int minMaxIslandPartSize = new Vector2Int(5,12);
 
+    [SerializeField]
+    private Material grassMaterial;
+
+    [SerializeField]
+    private Material asphaltMaterial;
+
     private bool navMeshRebuild = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        List<MeshFilter> meshFiltersGrass = new List<MeshFilter>();
+        List<MeshFilter> meshFiltersAsphalt = new List<MeshFilter>();
         Vector2Int islandSize = new Vector2Int(Random.Range(5,13), Random.Range(5, 13));
         Debug.Log(islandSize);
         GameObject[,] islandParts = new GameObject[islandSize.x,islandSize.y];
@@ -41,11 +49,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -60,11 +70,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -80,11 +92,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -100,11 +114,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -119,11 +135,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -138,11 +156,13 @@ public class MapGenerator : MonoBehaviour
                     if (Random.Range(0, 100) < 15)
                     {
                         islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                     }
                     else
                     {
                         islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
                         islandParts[x, y].transform.localScale = size;
                         if (Random.Range(0, 100) < 95)
                         {
@@ -152,6 +172,39 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        {
+            // Combines all the Grass meshes.
+            CombineInstance[] buildingGrass = new CombineInstance[meshFiltersGrass.Count];
+            for (int x = 0; x < meshFiltersGrass.Count; x++)
+            {
+                buildingGrass[x].mesh = meshFiltersGrass[x].sharedMesh;
+                buildingGrass[x].transform = meshFiltersGrass[x].transform.localToWorldMatrix;
+                Destroy(meshFiltersGrass[x].GetComponent<MeshRenderer>());
+                Destroy(meshFiltersGrass[x]);
+            }
+            var go = new GameObject("CombinedMesh Grass");
+            go.transform.SetParent(transform);
+            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingGrass);
+            go.AddComponent<MeshRenderer>().sharedMaterial = grassMaterial;
+            go.gameObject.layer = 8;
+        }
+        {
+            // Combines all the Asphalt meshes.
+            CombineInstance[] buildingAsphalt = new CombineInstance[meshFiltersAsphalt.Count];
+            for (int x = 0; x < meshFiltersAsphalt.Count; x++)
+            {
+                buildingAsphalt[x].mesh = meshFiltersAsphalt[x].sharedMesh;
+                buildingAsphalt[x].transform = meshFiltersAsphalt[x].transform.localToWorldMatrix;
+                Destroy(meshFiltersAsphalt[x].GetComponent<MeshRenderer>());
+                Destroy(meshFiltersAsphalt[x]);
+            }
+            var go = new GameObject("CombinedMesh Asphalt");
+            go.transform.SetParent(transform);
+            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingAsphalt);
+            go.AddComponent<MeshRenderer>().sharedMaterial = asphaltMaterial;
+            go.gameObject.layer = 8;
+        }
+
         //rebuildNavMesh.transform.position = islandParts[islandSize.x / 2, islandSize.y / 2].transform.position;
         //rebuildNavMesh.ResizeNavMesh(new Vector3(islandParts[0, islandSize.y / 2].transform.position.x + islandParts[islandSize.x - 1, islandSize.y / 2].transform.position.x + 100, 110, islandParts[islandSize.x / 2, 0].transform.position.x + islandParts[islandSize.x / 2, islandSize.y - 1].transform.position.x + 100));
     }

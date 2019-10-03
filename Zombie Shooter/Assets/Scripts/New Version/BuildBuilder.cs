@@ -23,17 +23,20 @@ public class BuildBuilder : MonoBehaviour
     [SerializeField]
     private Material wallMaterial;
 
-    CombineInstance[] building;
+    [SerializeField]
+    private Material floorMaterial;
 
     // Start is called before the first frame update
     void Start()
     {
-        List<MeshFilter> meshFilters = new List<MeshFilter>();
-        int floors = Random.Range(2,maxFloors);
+        List<MeshFilter> meshFiltersConcrete = new List<MeshFilter>();
+        List<MeshFilter> meshFiltersFloor = new List<MeshFilter>();
+        int floors = Random.Range(2, maxFloors);
         for (int currentFloor = 0; currentFloor < floors; currentFloor++)
         {
-            GameObject currentFloorObject = Instantiate(new GameObject(), new Vector3(this.transform.position.x, 5.75f * currentFloor, this.transform.position.z), new Quaternion(0,0,0,0), this.transform);
-            currentFloorObject.name = "Floor " + currentFloor.ToString();
+            GameObject currentFloorObject = new GameObject("Floor " + currentFloor.ToString());
+            currentFloorObject.transform.parent = this.transform;
+            currentFloorObject.transform.position = new Vector3(this.transform.position.x, 5.75f * currentFloor, this.transform.position.z);
             int maxDoors = Mathf.Clamp((size.x * 2 + size.y * 2) / 10, 1, 10);
             int doorsPlaced = 0;
 
@@ -42,9 +45,10 @@ public class BuildBuilder : MonoBehaviour
 
                 for (int y = 0; y < size.y; y++)
                 {
-                    Instantiate(floor, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y + 0.75f, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                    GameObject justPlaced = Instantiate(ceiling, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y + 6f, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                    meshFilters.Add(justPlaced.GetComponent<MeshFilter>());
+                    GameObject justPlaced = Instantiate(floor, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y + 0.75f, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                    meshFiltersFloor.Add(justPlaced.GetComponent<MeshFilter>());
+                    justPlaced = Instantiate(ceiling, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y + 6f, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                    meshFiltersConcrete.Add(justPlaced.GetComponent<MeshFilter>());
 
                     if (y == 0)
                     {
@@ -54,7 +58,7 @@ public class BuildBuilder : MonoBehaviour
                             doorsPlaced++;
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                         else
@@ -62,7 +66,7 @@ public class BuildBuilder : MonoBehaviour
                             justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                     }
@@ -74,7 +78,7 @@ public class BuildBuilder : MonoBehaviour
                             doorsPlaced++;
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                         else
@@ -82,7 +86,7 @@ public class BuildBuilder : MonoBehaviour
                             justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                     }
@@ -95,7 +99,7 @@ public class BuildBuilder : MonoBehaviour
                             doorsPlaced++;
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                         else
@@ -104,7 +108,7 @@ public class BuildBuilder : MonoBehaviour
                             justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                     }
@@ -117,7 +121,7 @@ public class BuildBuilder : MonoBehaviour
                             doorsPlaced++;
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                         else
@@ -126,24 +130,44 @@ public class BuildBuilder : MonoBehaviour
                             justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
                             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
                             {
-                                meshFilters.Add(meshFilter);
+                                meshFiltersConcrete.Add(meshFilter);
                             }
                         }
                     }
                 }
             }
         }
-        building = new CombineInstance[meshFilters.Count];
-        for (int x = 0; x < meshFilters.Count; x++)
         {
-            building[x].mesh = meshFilters[x].sharedMesh;
-            building[x].transform = meshFilters[x].transform.localToWorldMatrix;
-            Destroy(meshFilters[x].GetComponent<MeshRenderer>());
-            Destroy(meshFilters[x]);
+            // Combines all the Floor meshes
+            CombineInstance[] buildingFloor = new CombineInstance[meshFiltersFloor.Count];
+            for (int x = 0; x < meshFiltersFloor.Count; x++)
+            {
+                buildingFloor[x].mesh = meshFiltersFloor[x].sharedMesh;
+                buildingFloor[x].transform = meshFiltersFloor[x].transform.localToWorldMatrix;
+                Destroy(meshFiltersFloor[x].GetComponent<MeshRenderer>());
+                Destroy(meshFiltersFloor[x]);
+            }
+            var go = new GameObject("CombinedMesh Floor");
+            go.transform.SetParent(transform);
+            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingFloor);
+            go.AddComponent<MeshRenderer>().sharedMaterial = floorMaterial;
+            go.gameObject.layer = 8;
         }
-        var go = new GameObject("CombinedMesh");
-        go.transform.SetParent(transform);
-        go.AddComponent<MeshFilter>().mesh.CombineMeshes(building);
-        go.AddComponent<MeshRenderer>().sharedMaterial = wallMaterial;
+        {
+            // Combines all the concrete meshes
+            CombineInstance[] buildingConcrete = new CombineInstance[meshFiltersConcrete.Count];
+            for (int x = 0; x < meshFiltersConcrete.Count; x++)
+            {
+                buildingConcrete[x].mesh = meshFiltersConcrete[x].sharedMesh;
+                buildingConcrete[x].transform = meshFiltersConcrete[x].transform.localToWorldMatrix;
+                Destroy(meshFiltersConcrete[x].GetComponent<MeshRenderer>());
+                Destroy(meshFiltersConcrete[x]);
+            }
+            var go = new GameObject("CombinedMesh Concrete");
+            go.transform.SetParent(transform);
+            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingConcrete);
+            go.AddComponent<MeshRenderer>().sharedMaterial = wallMaterial;
+            go.gameObject.layer = 8;
+        }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4085115936439703362}
   - component: {fileID: 4085115936439703361}
   - component: {fileID: 8953473859476356537}
-  - component: {fileID: 4085115936439703391}
+  - component: {fileID: 802021415249534543}
   - component: {fileID: 6369860159792252762}
   - component: {fileID: 919141265122730182}
   - component: {fileID: 5255127304304878808}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
---- !u!114 &4085115936439703391
+--- !u!114 &802021415249534543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,18 +105,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4085115936439703390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb63bfaf02957dc4696ca4ace76eb505, type: 3}
+  m_Script: {fileID: 11500000, guid: c8052576da744c8419a4b7e9d6a9c7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 0}
   playerHealth: {fileID: 0}
   scoreSystem: {fileID: 0}
   _health: 4
   damage: 1
   scorePoints: 4
-  bulletBloodParticle: {fileID: 6077268005641988026, guid: 6495d36d6b29d654ca1478cc32e86a84,
+  bulletBloodParticle: {fileID: 6077268005641988026, guid: 337ed58f165290d47b83e9fda56c819e,
     type: 3}
-  dieBloodParticle: {fileID: 6077268005641988026, guid: 5c62c05b3d3102b4c9ab2437a2bc452e,
+  dieBloodParticle: {fileID: 6077268005641988026, guid: b73679a8352a41c438fca0da1bfe4bee,
     type: 3}
 --- !u!195 &6369860159792252762
 NavMeshAgent:
