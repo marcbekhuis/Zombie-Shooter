@@ -14,13 +14,17 @@ public class AIMove : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        if (!navMeshAgent.isOnNavMesh)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         // Makes the AI move to the player or to it self when the player lost or paused the game.
-        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused)
         {
             navMeshAgent.SetDestination(player.position);
         }

@@ -36,12 +36,13 @@ public class PlayerV2 : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused)
         {
             Move();
             Rotate();
             RotateGunTowardsMouse();
             CheckForFire();
+            Jump();
         }
     }
 
@@ -102,7 +103,7 @@ public class PlayerV2 : MonoBehaviour
 
     private void CheckForFire()
     {
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             _gun.TryToFire();
         }
@@ -124,4 +125,11 @@ public class PlayerV2 : MonoBehaviour
         RB.transform.eulerAngles = new Vector3(RB.transform.eulerAngles.x,vertical, 0);
     }
 
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && Physics.CheckBox(this.transform.position - new Vector3(0,1.02f,0), new Vector3(0.05f,0.01f,0.05f)))
+        {
+            RB.AddForce(new Vector3(0,30,0),ForceMode.Impulse);
+        }
+    }
 }

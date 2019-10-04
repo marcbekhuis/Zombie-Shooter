@@ -13,6 +13,7 @@ public class PauseMenuToggle : MonoBehaviour
     private void Start()
     {
         gamePaused = false;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -33,11 +34,13 @@ public class PauseMenuToggle : MonoBehaviour
             {
                 pauseMenu.SetActive(false);
                 gamePaused = false;
+                Cursor.visible = false;
             }
             else
             {
                 pauseMenu.SetActive(true);
                 gamePaused = true;
+                Cursor.visible = true;
             }
         }
     }
