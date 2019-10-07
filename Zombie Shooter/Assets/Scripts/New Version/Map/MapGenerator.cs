@@ -23,7 +23,7 @@ public class MapGenerator : MonoBehaviour
     private int buildingMaxFloors = 3;
 
     [SerializeField]
-    private Vector2Int minMaxIslandPartSize = new Vector2Int(5,12);
+    private Vector2Int minMaxIslandPartSize = new Vector2Int(5, 12);
 
     [SerializeField]
     private Material grassMaterial;
@@ -39,225 +39,46 @@ public class MapGenerator : MonoBehaviour
         // Generates the island
         List<MeshFilter> meshFiltersGrass = new List<MeshFilter>();
         List<MeshFilter> meshFiltersAsphalt = new List<MeshFilter>();
-        Vector2Int islandSize = new Vector2Int(Random.Range(5,13), Random.Range(5, 13));
-        GameObject[,] islandParts = new GameObject[islandSize.x,islandSize.y];
-        for (int x = 0; x < islandSize.x ; x++)
+        Vector2Int islandSize = new Vector2Int(Random.Range(5, 13), Random.Range(5, 13));
+        GameObject[,] islandParts = new GameObject[islandSize.x, islandSize.y];
+        for (int x = 0; x < islandSize.x; x++)
         {
             for (int y = 0; y < islandSize.y; y++)
             {
                 // Spawns the first tile
                 if (x == 0 && y == 0)
                 {
-                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
-                    Vector3 location = new Vector3(this.transform.position.x, 0, this.transform.position.z);
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10,10),7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2,5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
+                    CreateFirstTile(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
                 // Spawns the the tiles on Y as number 0
                 else if (x != 0 && y == 0)
                 {
-                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
-                    Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + size.x / 2 + islandParts[x - 1, y].transform.localScale.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z - (((float)size.z / 2f) - (islandParts[x - 1, y].transform.localScale.z / 2f)));
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
+                    CreateY0Tiles(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
                 // Spawns the the tiles on X as number 0
                 else if (x == 0 && y != 0)
                 {
-
-                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
-                    Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x - (((float)size.x / 2f) - (islandParts[x, y - 1].transform.localScale.x / 2f)), 0, islandParts[x, y - 1].transform.localPosition.z + size.z / 2 + islandParts[x, y - 1].transform.localScale.z / 2);
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
-
+                    CreateX0Tiles(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
                 // Spawns all the tiles in the middle
-                else if (x  < islandSize.x - 1 && y < islandSize.y - 1) 
+                else if (x < islandSize.x - 1 && y < islandSize.y - 1)
                 {
-                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, islandParts[x - 1,y].transform.localScale.z);
-                    Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x - 1, y].transform.localPosition.z);
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
+                    CreateInsideTiles(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
                 // Spawns the last tiles on the X as.
-                else if(x == islandSize.x - 1)
+                else if (x == islandSize.x - 1)
                 {
-                    Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, islandParts[x - 1, y].transform.localScale.z);
-                    Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + islandParts[x - 1, y].transform.localScale.x / 2 + size.x /2, 0, islandParts[x - 1, y].transform.localPosition.z);
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
+                    CreateXLastTiles(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
                 // spawns the last tiles on the Y as.
                 else if (y == islandSize.y - 1)
                 {
-                    Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
-                    Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x, y - 1].transform.localPosition.z + islandParts[x, y - 1].transform.localScale.z / 2 + size.z / 2);
-                    // Spawns a grass tile
-                    if (Random.Range(0, 100) < 15)
-                    {
-                        islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 20)
-                        {
-                            GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
-                            justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
-                        }
-                    }
-                    else
-                    {
-                        // Spawns a Asphalt tile where a building can be spawned on.
-                        islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
-                        meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
-                        islandParts[x, y].transform.localScale = size;
-                        if (Random.Range(0, 100) < 95)
-                        {
-                            PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
-                        }
-                    }
+                    CreateYLastTiles(x, y, meshFiltersGrass, meshFiltersAsphalt, islandParts);
                 }
             }
+            CombineMesh(meshFiltersGrass, grassMaterial, "CombinedMesh Grass");
+            CombineMesh(meshFiltersAsphalt, asphaltMaterial, "CombinedMesh Asphalt");
         }
-        {
-            // Combines all the Grass meshes.
-            CombineInstance[] buildingGrass = new CombineInstance[meshFiltersGrass.Count];
-            for (int x = 0; x < meshFiltersGrass.Count; x++)
-            {
-                buildingGrass[x].mesh = meshFiltersGrass[x].sharedMesh;
-                buildingGrass[x].transform = meshFiltersGrass[x].transform.localToWorldMatrix;
-                Destroy(meshFiltersGrass[x].GetComponent<MeshRenderer>());
-                Destroy(meshFiltersGrass[x]);
-            }
-            var go = new GameObject("CombinedMesh Grass");
-            go.transform.SetParent(transform);
-            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingGrass);
-            go.AddComponent<MeshRenderer>().sharedMaterial = grassMaterial;
-            go.gameObject.layer = 8;
-        }
-        {
-            // Combines all the Asphalt meshes.
-            CombineInstance[] buildingAsphalt = new CombineInstance[meshFiltersAsphalt.Count];
-            for (int x = 0; x < meshFiltersAsphalt.Count; x++)
-            {
-                buildingAsphalt[x].mesh = meshFiltersAsphalt[x].sharedMesh;
-                buildingAsphalt[x].transform = meshFiltersAsphalt[x].transform.localToWorldMatrix;
-                Destroy(meshFiltersAsphalt[x].GetComponent<MeshRenderer>());
-                Destroy(meshFiltersAsphalt[x]);
-            }
-            var go = new GameObject("CombinedMesh Asphalt");
-            go.transform.SetParent(transform);
-            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingAsphalt);
-            go.AddComponent<MeshRenderer>().sharedMaterial = asphaltMaterial;
-            go.gameObject.layer = 8;
-        }
-
-        //rebuildNavMesh.transform.position = islandParts[islandSize.x / 2, islandSize.y / 2].transform.position;
-        //rebuildNavMesh.ResizeNavMesh(new Vector3(islandParts[0, islandSize.y / 2].transform.position.x + islandParts[islandSize.x - 1, islandSize.y / 2].transform.position.x + 100, 110, islandParts[islandSize.x / 2, 0].transform.position.x + islandParts[islandSize.x / 2, islandSize.y - 1].transform.position.x + 100));
     }
 
     // Update is called once per frame
@@ -272,14 +93,206 @@ public class MapGenerator : MonoBehaviour
             navMeshRebuild = true;
         }
     }
-    
+
     // Spawns a random generated building.
     void PlaceBuilding(int x, int y, Vector3 position, Vector2Int size)
     {
-        GameObject justPlaced = Instantiate(building, position - new Vector3(size.x / 2f * 5 - 7.5f, 0, size.y / 2f * 5 - 7.5f), new Quaternion(0,0,0,0));
+        GameObject justPlaced = Instantiate(building, position - new Vector3(size.x / 2f * 5 - 7.5f, 0, size.y / 2f * 5 - 7.5f), new Quaternion(0, 0, 0, 0));
         BuildBuilder buildBuilder = justPlaced.GetComponent<BuildBuilder>();
         justPlaced.name = "Building X" + x + "Y" + y;
-        buildBuilder.size = size - new Vector2Int(2,2);
+        buildBuilder.size = size - new Vector2Int(2, 2);
         buildBuilder.maxFloors = buildingMaxFloors;
+    }
+
+    void CombineMesh(List<MeshFilter> meshFilters, Material material, string name)
+    {
+        // Combines all the Grass meshes.
+        CombineInstance[] building = new CombineInstance[meshFilters.Count];
+        for (int x = 0; x < meshFilters.Count; x++)
+        {
+            building[x].mesh = meshFilters[x].sharedMesh;
+            building[x].transform = meshFilters[x].transform.localToWorldMatrix;
+            Destroy(meshFilters[x].GetComponent<MeshRenderer>());
+            Destroy(meshFilters[x]);
+        }
+        var go = new GameObject(name);
+        go.transform.SetParent(transform);
+        go.AddComponent<MeshFilter>().mesh.CombineMeshes(building);
+        go.AddComponent<MeshRenderer>().sharedMaterial = material;
+        go.gameObject.layer = 8;
+    }
+
+    void CreateFirstTile(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
+        Vector3 location = new Vector3(this.transform.position.x, 0, this.transform.position.z);
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
+    }
+
+    void CreateY0Tiles(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
+        Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + size.x / 2 + islandParts[x - 1, y].transform.localScale.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z - (((float)size.z / 2f) - (islandParts[x - 1, y].transform.localScale.z / 2f)));
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
+    }
+
+    void CreateX0Tiles(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
+        Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x - (((float)size.x / 2f) - (islandParts[x, y - 1].transform.localScale.x / 2f)), 0, islandParts[x, y - 1].transform.localPosition.z + size.z / 2 + islandParts[x, y - 1].transform.localScale.z / 2);
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
+    }
+
+    void CreateInsideTiles(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, islandParts[x - 1, y].transform.localScale.z);
+        Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x - 1, y].transform.localPosition.z);
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
+    }
+
+    void CreateXLastTiles(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5, 1, islandParts[x - 1, y].transform.localScale.z);
+        Vector3 location = new Vector3(islandParts[x - 1, y].transform.localPosition.x + islandParts[x - 1, y].transform.localScale.x / 2 + size.x / 2, 0, islandParts[x - 1, y].transform.localPosition.z);
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
+    }
+
+    void CreateYLastTiles(int x, int y, List<MeshFilter> meshFiltersGrass, List<MeshFilter> meshFiltersAsphalt, GameObject[,] islandParts)
+    {
+        Vector3 size = new Vector3(islandParts[x, y - 1].transform.localScale.x, 1, Random.Range(minMaxIslandPartSize.x, minMaxIslandPartSize.y) * 5);
+        Vector3 location = new Vector3(islandParts[x, y - 1].transform.localPosition.x, 0, islandParts[x, y - 1].transform.localPosition.z + islandParts[x, y - 1].transform.localScale.z / 2 + size.z / 2);
+        // Spawns a grass tile
+        if (Random.Range(0, 100) < 15)
+        {
+            islandParts[x, y] = (Instantiate(grass, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersGrass.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 20)
+            {
+                GameObject justSpawned = (Instantiate(pushAbleCube, location + new Vector3(Random.Range(-10, 10), 7, Random.Range(-10, 10)), new Quaternion(0, 0, 0, 0), this.transform));
+                justSpawned.transform.localScale = new Vector3(Random.Range(2, 5), Random.Range(2, 5), Random.Range(2, 5));
+            }
+        }
+        else
+        {
+            // Spawns a Asphalt tile where a building can be spawned on.
+            islandParts[x, y] = (Instantiate(asphalt, location, new Quaternion(0, 0, 0, 0), this.transform));
+            meshFiltersAsphalt.Add(islandParts[x, y].GetComponent<MeshFilter>());
+            islandParts[x, y].transform.localScale = size;
+            if (Random.Range(0, 100) < 95)
+            {
+                PlaceBuilding(x, y, location, new Vector2Int((int)(size.x / 5), (int)(size.z / 5)));
+            }
+        }
     }
 }

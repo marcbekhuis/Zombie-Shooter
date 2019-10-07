@@ -44,7 +44,6 @@ public class BuildBuilder : MonoBehaviour
 
             for (int x = 0; x < size.x; x++)
             {
-
                 for (int y = 0; y < size.y; y++)
                 {
                     // Spawn a floor and ceiling
@@ -56,125 +55,65 @@ public class BuildBuilder : MonoBehaviour
                     // Spawns a wall on the Y as number 0
                     if (y == 0)
                     {
-                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
-                        {
-                            justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            doorsPlaced++;
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
-                        else
-                        {
-                            justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
+                        CreateWall(currentFloor,doorsPlaced,maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), currentFloorObject.transform,meshFiltersConcrete);
                     }
                     // Spawns a wall on the last y as.
                     else if (y == size.y - 1)
                     {
-                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
-                        {
-                            justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            doorsPlaced++;
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
-                        else
-                        {
-                            justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), currentFloorObject.transform, meshFiltersConcrete);
                     }
                     // Spawns a wall on the X as number 0
                     if (x == 0)
                     {
-                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
-                        {
-                            justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
-                            doorsPlaced++;
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
-                        else
-                        {
-                            justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), currentFloorObject.transform, meshFiltersConcrete);
                     }
                     // Spawns a wall on the last X as.
                     else if (x == size.x - 1)
                     {
-                        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
-                        {
-                            justPlaced = Instantiate(doorWay, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
-                            doorsPlaced++;
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
-                        else
-                        {
-                            justPlaced = Instantiate(window, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
-                            justPlaced.transform.eulerAngles = new Vector3(0, 90, 0);
-                            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
-                            {
-                                meshFiltersConcrete.Add(meshFilter);
-                            }
-                        }
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), currentFloorObject.transform, meshFiltersConcrete);
                     }
                 }
             }
         }
+        CombineMesh(meshFiltersFloor,floorMaterial, "CombinedMesh Floor");
+        CombineMesh(meshFiltersConcrete, wallMaterial, "CombinedMesh Concrete");
+    }
+
+    void CreateWall(int currentFloor, int doorsPlaced, int maxDoors, Vector3 location, Transform currentFloorObject, List<MeshFilter> meshFiltersConcrete)
+    {
+        if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
         {
-            // Combines all the Floor meshes
-            CombineInstance[] buildingFloor = new CombineInstance[meshFiltersFloor.Count];
-            for (int x = 0; x < meshFiltersFloor.Count; x++)
+            GameObject justPlaced = Instantiate(doorWay, location, new Quaternion(0, 0, 0, 0), currentFloorObject);
+            doorsPlaced++;
+            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
             {
-                buildingFloor[x].mesh = meshFiltersFloor[x].sharedMesh;
-                buildingFloor[x].transform = meshFiltersFloor[x].transform.localToWorldMatrix;
-                Destroy(meshFiltersFloor[x].GetComponent<MeshRenderer>());
-                Destroy(meshFiltersFloor[x]);
+                meshFiltersConcrete.Add(meshFilter);
             }
-            var go = new GameObject("CombinedMesh Floor");
-            go.transform.SetParent(transform);
-            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingFloor);
-            go.AddComponent<MeshRenderer>().sharedMaterial = floorMaterial;
-            go.gameObject.layer = 8;
         }
+        else
         {
-            // Combines all the concrete meshes
-            CombineInstance[] buildingConcrete = new CombineInstance[meshFiltersConcrete.Count];
-            for (int x = 0; x < meshFiltersConcrete.Count; x++)
+            GameObject justPlaced = Instantiate(window, location, new Quaternion(0, 0, 0, 0), currentFloorObject);
+            foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
             {
-                buildingConcrete[x].mesh = meshFiltersConcrete[x].sharedMesh;
-                buildingConcrete[x].transform = meshFiltersConcrete[x].transform.localToWorldMatrix;
-                Destroy(meshFiltersConcrete[x].GetComponent<MeshRenderer>());
-                Destroy(meshFiltersConcrete[x]);
+                meshFiltersConcrete.Add(meshFilter);
             }
-            var go = new GameObject("CombinedMesh Concrete");
-            go.transform.SetParent(transform);
-            go.AddComponent<MeshFilter>().mesh.CombineMeshes(buildingConcrete);
-            go.AddComponent<MeshRenderer>().sharedMaterial = wallMaterial;
-            go.gameObject.layer = 8;
         }
+    }
+    void CombineMesh(List<MeshFilter> meshFilters, Material material, string name)
+    {
+        // Combines all the Grass meshes.
+        CombineInstance[] building = new CombineInstance[meshFilters.Count];
+        for (int x = 0; x < meshFilters.Count; x++)
+        {
+            building[x].mesh = meshFilters[x].sharedMesh;
+            building[x].transform = meshFilters[x].transform.localToWorldMatrix;
+            Destroy(meshFilters[x].GetComponent<MeshRenderer>());
+            Destroy(meshFilters[x]);
+        }
+        var go = new GameObject(name);
+        go.transform.SetParent(transform);
+        go.AddComponent<MeshFilter>().mesh.CombineMeshes(building);
+        go.AddComponent<MeshRenderer>().sharedMaterial = material;
+        go.gameObject.layer = 8;
     }
 }
