@@ -11,7 +11,7 @@ public class RebuildNavMesh : MonoBehaviour
     // Rebuilds the NavMesh
     public void Rebuild()
     {
-        navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
+        navMeshSurface.BuildNavMesh();
     }
 
     public void ResizeNavMesh(Vector3 size)

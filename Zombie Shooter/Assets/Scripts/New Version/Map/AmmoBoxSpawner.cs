@@ -9,12 +9,12 @@ public class AmmoBoxSpawner : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float delay = 30;
 
-    private float cooldown;
+    private float cooldown = 0;
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.deltaTime > cooldown)
+        if (Time.timeSinceLevelLoad > cooldown)
         {
             Vector3 spawnLocation = new Vector3(Random.Range(player.position.x - 100, player.position.x + 100), 3, Random.Range(player.position.z - 100, player.position.z + 100));
             NavMeshHit hit;
@@ -22,6 +22,7 @@ public class AmmoBoxSpawner : MonoBehaviour
             {
                 spawnLocation = hit.position + new Vector3(0, 2, 0);
                 GameObject justSpawned = Instantiate(ammoBox, spawnLocation, new Quaternion(0, 0, 0, 0), this.transform);
+                cooldown = Time.timeSinceLevelLoad + delay;
             }
         }
     }

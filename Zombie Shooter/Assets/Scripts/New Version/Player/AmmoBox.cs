@@ -12,14 +12,14 @@ public class AmmoBox : MonoBehaviour
         clipsInBox = Random.Range(1,6);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            GunV2 gun = other.GetComponentInChildren<GunV2>();
+            GunV2 gun = collision.gameObject.GetComponentInChildren<GunV2>();
             for (int x = 0; x < clipsInBox; x++)
             {
-                gun.AddClip(Random.Range(Mathf.Clamp(GunV2.maxClipSize - 10,0, GunV2.maxClipSize), GunV2.maxClipSize));
+                gun.AddClip(Random.Range(Mathf.Clamp(GunV2.maxClipSize - 5,0, GunV2.maxClipSize), GunV2.maxClipSize));
             }
             Destroy(this.gameObject);
         }
