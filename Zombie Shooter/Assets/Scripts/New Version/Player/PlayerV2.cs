@@ -42,6 +42,7 @@ public class PlayerV2 : MonoBehaviour
             Rotate();
             RotateGunTowardsMouse();
             CheckForFire();
+            CheckForReload();
             Jump();
         }
     }
@@ -106,6 +107,14 @@ public class PlayerV2 : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0))
         {
             _gun.TryToFire();
+        }
+    }
+
+    private void CheckForReload()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _gun.Reload();
         }
     }
 

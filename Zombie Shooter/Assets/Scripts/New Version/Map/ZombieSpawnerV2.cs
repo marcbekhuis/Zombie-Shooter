@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieSpawnerV2 : MonoBehaviour
 {
@@ -59,36 +60,41 @@ public class ZombieSpawnerV2 : MonoBehaviour
                     if (Random.Range(0, Time.timeSinceLevelLoad) < 320)
                     {
                         Vector3 spawnLocation = new Vector3(Random.Range(player.transform.position.x - 100, player.transform.position.x + 100), 3, Random.Range(player.transform.position.z - 100, player.transform.position.z + 100));
-                        if (Random.Range(0, 100) < 90)
+                        NavMeshHit hit;
+                        if (NavMesh.SamplePosition(spawnLocation, out hit, 5, 1))
                         {
-                            if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 30 && !Physics.CheckBox(spawnLocation, easyZombie.transform.localScale / 2))
+                            spawnLocation = hit.position + new Vector3(0, 2, 0);
+                            if (Random.Range(0, 100) < 90)
                             {
-                                // The max random number increase as you survive making the change of a more diffecult zombie to spawn.
-                                float randomNumber = Random.Range(0, Time.timeSinceLevelLoad);
-                                if (randomNumber < 80)
+                                if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 30 && !Physics.CheckBox(spawnLocation, easyZombie.transform.localScale / 2))
                                 {
-                                    spawned = SpawnZombie(easyZombie, spawnLocation);
-                                    break;
-                                }
-                                else if (randomNumber < 160)
-                                {
-                                    spawned = SpawnZombie(mediumZombie, spawnLocation);
-                                    break;
-                                }
-                                else if (randomNumber < 240)
-                                {
-                                    spawned = SpawnZombie(hardZombie, spawnLocation);
-                                    break;
+                                    // The max random number increase as you survive making the change of a more diffecult zombie to spawn.
+                                    float randomNumber = Random.Range(0, Time.timeSinceLevelLoad);
+                                    if (randomNumber < 80)
+                                    {
+                                        spawned = SpawnZombie(easyZombie, spawnLocation);
+                                        break;
+                                    }
+                                    else if (randomNumber < 160)
+                                    {
+                                        spawned = SpawnZombie(mediumZombie, spawnLocation);
+                                        break;
+                                    }
+                                    else if (randomNumber < 240)
+                                    {
+                                        spawned = SpawnZombie(hardZombie, spawnLocation);
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            // Spawns A Kid Zombie.
-                            if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 30 && !Physics.CheckBox(spawnLocation, new Vector3(1, 0.25f, 1)))
+                            else
                             {
-                                spawned = SpawnZombie(kidZombie, spawnLocation);
-                                break;
+                                // Spawns A Kid Zombie.
+                                if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 30 && !Physics.CheckBox(spawnLocation, new Vector3(1, 0.25f, 1)))
+                                {
+                                    spawned = SpawnZombie(kidZombie, spawnLocation);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -96,10 +102,15 @@ public class ZombieSpawnerV2 : MonoBehaviour
                     {
                         // Spawns A Giant Zombie.
                         Vector3 spawnLocation = new Vector3(Random.Range(player.transform.position.x - 100, player.transform.position.x + 100), 7, Random.Range(player.transform.position.z - 100, player.transform.position.z + 100));
-                        if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 50 && !Physics.CheckBox(spawnLocation, new Vector3(2, 4, 2)))
+                        NavMeshHit hit;
+                        if (NavMesh.SamplePosition(spawnLocation, out hit, 5, 1))
                         {
-                            spawned = SpawnZombie(giantZombie, spawnLocation);
-                            break;
+                            spawnLocation = hit.position + new Vector3(0, 4, 0);
+                            if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 50 && !Physics.CheckBox(spawnLocation, new Vector3(2, 4, 2)))
+                            {
+                                spawned = SpawnZombie(giantZombie, spawnLocation);
+                                break;
+                            }
                         }
                     }
                 }

@@ -55,22 +55,22 @@ public class BuildBuilder : MonoBehaviour
                     // Spawns a wall on the Y as number 0
                     if (y == 0)
                     {
-                        CreateWall(currentFloor,doorsPlaced,maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), currentFloorObject.transform,meshFiltersConcrete);
+                        CreateWall(currentFloor,doorsPlaced,maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y - 2.75f), new Vector3(0, 90, 0), currentFloorObject.transform,meshFiltersConcrete);
                     }
                     // Spawns a wall on the last y as.
                     else if (y == size.y - 1)
                     {
-                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), currentFloorObject.transform, meshFiltersConcrete);
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y + 2.75f), new Vector3(0, -90, 0), currentFloorObject.transform, meshFiltersConcrete);
                     }
                     // Spawns a wall on the X as number 0
                     if (x == 0)
                     {
-                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), currentFloorObject.transform, meshFiltersConcrete);
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x - 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Vector3(0, 180, 0), currentFloorObject.transform, meshFiltersConcrete);
                     }
                     // Spawns a wall on the last X as.
                     else if (x == size.x - 1)
                     {
-                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), currentFloorObject.transform, meshFiltersConcrete);
+                        CreateWall(currentFloor, doorsPlaced, maxDoors, new Vector3(currentFloorObject.transform.position.x + 5 * x + 2.75f, currentFloorObject.transform.position.y, currentFloorObject.transform.position.z + 5 * y), new Vector3(0, 0, 0), currentFloorObject.transform, meshFiltersConcrete);
                     }
                 }
             }
@@ -79,11 +79,12 @@ public class BuildBuilder : MonoBehaviour
         CombineMesh(meshFiltersConcrete, wallMaterial, "CombinedMesh Concrete");
     }
 
-    void CreateWall(int currentFloor, int doorsPlaced, int maxDoors, Vector3 location, Transform currentFloorObject, List<MeshFilter> meshFiltersConcrete)
+    void CreateWall(int currentFloor, int doorsPlaced, int maxDoors, Vector3 location, Vector3 rotation ,Transform currentFloorObject, List<MeshFilter> meshFiltersConcrete)
     {
         if (currentFloor == 0 && doorsPlaced < maxDoors && Random.Range(0, 60) < 10)
         {
             GameObject justPlaced = Instantiate(doorWay, location, new Quaternion(0, 0, 0, 0), currentFloorObject);
+            justPlaced.transform.eulerAngles = rotation;
             doorsPlaced++;
             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
             {
@@ -93,6 +94,7 @@ public class BuildBuilder : MonoBehaviour
         else
         {
             GameObject justPlaced = Instantiate(window, location, new Quaternion(0, 0, 0, 0), currentFloorObject);
+            justPlaced.transform.eulerAngles = rotation;
             foreach (var meshFilter in justPlaced.GetComponentsInChildren<MeshFilter>())
             {
                 meshFiltersConcrete.Add(meshFilter);
