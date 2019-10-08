@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunV2 : MonoBehaviour
 {
-    public static int maxClipSize = 30;
+    public int maxClipSize = 30;
 
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private Transform _bulletSpawnLocation = null;

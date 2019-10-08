@@ -19,7 +19,7 @@ public class AmmoBox : MonoBehaviour
             GunV2 gun = collision.gameObject.GetComponentInChildren<GunV2>();
             for (int x = 0; x < clipsInBox; x++)
             {
-                gun.AddClip(Random.Range(Mathf.Clamp(GunV2.maxClipSize - 5,0, GunV2.maxClipSize), GunV2.maxClipSize));
+                gun.AddClip(Random.Range(Mathf.Clamp(gun.maxClipSize - 5,0, gun.maxClipSize), gun.maxClipSize));
             }
             Destroy(this.gameObject);
         }

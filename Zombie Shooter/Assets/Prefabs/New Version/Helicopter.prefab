@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landingZone: {fileID: 0}
+  speed: 100
 --- !u!1001 &3940551697679734584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,17 +61,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: e1523a0b20b0be84d8777ceeb9158d03,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.928387
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e1523a0b20b0be84d8777ceeb9158d03,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16.283615
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e1523a0b20b0be84d8777ceeb9158d03,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.8250568
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e1523a0b20b0be84d8777ceeb9158d03,
         type: 3}
