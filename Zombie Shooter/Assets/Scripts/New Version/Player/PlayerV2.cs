@@ -19,10 +19,19 @@ public class PlayerV2 : MonoBehaviour
 
     [SerializeField] 
     private Rigidbody RB;
+    [Space]
+    [SerializeField] private AudioSource walkSource;
+    [SerializeField] private AudioClip leftFoot1;
+    [SerializeField] private AudioClip leftFoot2;
+    [SerializeField] private AudioClip rightFoot1;
+    [SerializeField] private AudioClip rightFoot2;
+    [SerializeField] private float footSoundDelay = 3;
 
     private Camera _camera;//Caching a reference to the camera since we frequently need it (Update) and Camera.main is a costly operation 
     private float vertical = 0;
     private float horizontal = 0;
+    private bool foot = false;
+    private float footSoundCooldown = 0;
 
     private void Awake()
     {
@@ -54,6 +63,38 @@ public class PlayerV2 : MonoBehaviour
 
         //Apply consistent(not fps dependent, aka use of Time.deltaTime) displacement with a variable speed property(_movementSpeed)
         RB.velocity = RB.transform.rotation * new Vector3(movementInput.x * _movementSpeed, RB.velocity.y, movementInput.y * _movementSpeed);
+
+        if (movementInput.x != 0 || movementInput.y != 0)
+        {
+            if (Time.timeSinceLevelLoad > footSoundCooldown)
+            {
+                if (foot)
+                {
+                    if (Random.Range(0, 100) < 50)
+                    {
+                        walkSource.PlayOneShot(leftFoot1);
+                    }
+                    else
+                    {
+                        walkSource.PlayOneShot(leftFoot2);
+                    }
+                    foot = false;
+                }
+                else
+                {
+                    if (Random.Range(0, 100) < 50)
+                    {
+                        walkSource.PlayOneShot(rightFoot1);
+                    }
+                    else
+                    {
+                        walkSource.PlayOneShot(rightFoot2);
+                    }
+                    foot = true;
+                }
+                footSoundCooldown = Time.timeSinceLevelLoad + footSoundDelay;
+            }
+        }
     }
 
     private Vector2 RegisterMovement()

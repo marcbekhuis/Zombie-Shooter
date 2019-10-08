@@ -9,6 +9,11 @@ public class GunV2 : MonoBehaviour
     [SerializeField] private GameObject _bulletPrefab = null;
     [SerializeField] private Transform _bulletSpawnLocation = null;
     [Space]
+    [SerializeField] private AudioSource gunSource;
+    [SerializeField] private AudioClip gunShot;
+    [SerializeField] private AudioClip gunDryShot;
+    [SerializeField] private AudioClip gunReload;
+    [Space]
     [SerializeField] private int _gunDamage = 1;
     [SerializeField] private float _bulletSpeed = 20;
     [SerializeField] private int startingClips = 5;
@@ -71,17 +76,22 @@ public class GunV2 : MonoBehaviour
 
     public void TryToFire()
     {
-        if (clips.Count != 0)
+        if (Time.time > _newBulletTimeStamp)
         {
-            if (clips[0].bullets != 0)
+            if (clips.Count != 0)
             {
-                //Only fire a bullet when we are allowed to fire, keeping the fireRate into account
-                if (Time.time > _newBulletTimeStamp)
+                if (clips[0].bullets != 0)
                 {
+                    //Only fire a bullet when we are allowed to fire, keeping the fireRate into account
                     //Creating a new bullet at the bulletSpawnLocation with the same rotation as the gun has
                     GameObject bulletObject = Instantiate(_bulletPrefab, _bulletSpawnLocation.position, Quaternion.LookRotation(transform.forward));
                     clips[0].bullets--;
                     UpdateBulletUI();
+                    gunSource.PlayOneShot(gunShot);
+                    if (clips[0].bullets == 0)
+                    {
+                        Destroy(clips[0].clipUI);
+                    }
 
                     //Getting the bullet Component from the newly created bulletObject, so we can initialize it with some gun properties (mainly because MonoBehaviours and Unity don't work well with constructors)
                     BulletV2 bullet = bulletObject.GetComponent<BulletV2>();
@@ -91,15 +101,17 @@ public class GunV2 : MonoBehaviour
                     //Updating the timeStamp so we know at which time we are allowed to fire another bullet again
                     _newBulletTimeStamp = Time.time + _cooldownRatePerBulletShot;
                 }
+                else
+                {
+                    gunSource.PlayOneShot(gunDryShot);
+                    _newBulletTimeStamp = Time.time + _cooldownRatePerBulletShot;
+                }
             }
-            else if (Time.time > _newBulletTimeStamp)
+            else
             {
-                Reload();
+                gunSource.PlayOneShot(gunDryShot);
+                _newBulletTimeStamp = Time.time + _cooldownRatePerBulletShot;
             }
-        }
-        else if (Time.time > _newBulletTimeStamp)
-        {
-            Reload();
         }
     }
 
@@ -118,10 +130,14 @@ public class GunV2 : MonoBehaviour
             {
                 if (clips[0].bullets == 0)
                 {
-                    Destroy(clips[0].clipUI);
+                    if (clips[0].clipUI != null)
+                    {
+                        Destroy(clips[0].clipUI);
+                    }
                     clips.RemoveAt(0);
                     _newBulletTimeStamp = Time.time + 1;
                     UpdateBulletUI();
+                    gunSource.PlayOneShot(gunReload);
                 }
                 else
                 {
@@ -129,6 +145,7 @@ public class GunV2 : MonoBehaviour
                     clips.RemoveAt(0);
                     _newBulletTimeStamp = Time.time + 1;
                     UpdateBulletUI();
+                    gunSource.PlayOneShot(gunReload);
                 }
             }
         }
