@@ -8,6 +8,8 @@ public class BuildBuilder : MonoBehaviour
 
     public Vector2Int size = new Vector2Int (2,2);
 
+    public bool hasHelipad = false;
+
     [SerializeField]
     private GameObject floor;
 
@@ -26,6 +28,14 @@ public class BuildBuilder : MonoBehaviour
     [SerializeField]
     private Material floorMaterial;
 
+    [SerializeField]
+    private GameObject helipad;
+
+    [SerializeField]
+    private GameObject helicopter;
+
+    private bool helipadPlaced = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +51,14 @@ public class BuildBuilder : MonoBehaviour
             currentFloorObject.transform.position = new Vector3(this.transform.position.x, 5.75f * currentFloor, this.transform.position.z);
             int maxDoors = Mathf.Clamp((size.x * 2 + size.y * 2) / 8, 1, 10);
             int doorsPlaced = 0;
+
+            if (hasHelipad && currentFloor == floors - 1 && !helipadPlaced)
+            {
+                GameObject spawnedHelipad = Instantiate(helipad, new Vector3(currentFloorObject.transform.position.x + 5 * Random.Range(1,size.x - 1), currentFloorObject.transform.position.y + 6.5f, currentFloorObject.transform.position.z + 5 * Random.Range(1, size.y - 1)), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+                GameObject spawnedHelicopter = Instantiate(helicopter, new Vector3(Random.Range(700,1000),120, Random.Range(700, 1000)), new Quaternion(0,0,0,0));
+                spawnedHelicopter.GetComponent<Helicopter>().landingZone = spawnedHelipad.transform;
+                helipadPlaced = true;
+            }
 
             for (int x = 0; x < size.x; x++)
             {

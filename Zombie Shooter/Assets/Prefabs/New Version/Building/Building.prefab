@@ -45,9 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxFloors: 3
   size: {x: 3, y: 3}
+  hasHelipad: 0
   floor: {fileID: 8906063728521325506, guid: a6951b05f4b3ff74f949ae5d91164f39, type: 3}
   ceiling: {fileID: 2802849898651766911, guid: 7e806c381a9cb8644992c6e6829b358f, type: 3}
   doorWay: {fileID: 4345373270865279781, guid: 05f0d6cac0cda6b4e924db78b6512684, type: 3}
   window: {fileID: 5634685214675042468, guid: 6294a4fa907b10f49bbd3bd282d05c7d, type: 3}
   wallMaterial: {fileID: 2100000, guid: 4b8735e708be11f4d91249e05dd80930, type: 2}
   floorMaterial: {fileID: 2100000, guid: f8985875b681c224c97650f8a596c094, type: 2}
+  helipad: {fileID: 2715915722788090931, guid: 940371a8dbd88dc468281ee22e9e0023, type: 3}
+  helicopter: {fileID: 5083824419010254535, guid: 0ea0fdacda02e1d48b11a30428beadc6,
+    type: 3}

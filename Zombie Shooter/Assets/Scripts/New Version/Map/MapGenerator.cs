@@ -32,6 +32,7 @@ public class MapGenerator : MonoBehaviour
     private Material asphaltMaterial;
 
     private bool navMeshRebuild = false;
+    private bool helipadSet = false;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +103,11 @@ public class MapGenerator : MonoBehaviour
         justPlaced.name = "Building X" + x + "Y" + y;
         buildBuilder.size = size - new Vector2Int(2, 2);
         buildBuilder.maxFloors = buildingMaxFloors;
+        if (!helipadSet && ((size.x > 2 && size.y > 3) || (size.x > 3 && size.y > 2)))
+        {
+            buildBuilder.hasHelipad = true;
+            helipadSet = true;
+        }
     }
 
     void CombineMesh(List<MeshFilter> meshFilters, Material material, string name)
