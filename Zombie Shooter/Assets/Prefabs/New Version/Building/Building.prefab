@@ -55,3 +55,4 @@ MonoBehaviour:
   helipad: {fileID: 2715915722788090931, guid: 940371a8dbd88dc468281ee22e9e0023, type: 3}
   helicopter: {fileID: 5083824419010254535, guid: 0ea0fdacda02e1d48b11a30428beadc6,
     type: 3}
+  stair: {fileID: 7343933668883064931, guid: 48c856b1b5bf9494f8183178fe7d7f9a, type: 3}

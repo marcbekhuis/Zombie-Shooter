@@ -177,9 +177,9 @@ public class PlayerV2 : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Physics.CheckBox(this.transform.position - new Vector3(0,1.02f,0), new Vector3(0.05f,0.01f,0.05f)))
+        if (Input.GetKeyDown(KeyCode.Space) && Physics.CheckBox(this.transform.position - new Vector3(0,1.05f,0), new Vector3(0.2f,0.04f,0.2f)))
         {
-            RB.AddForce(new Vector3(0,30,0),ForceMode.Impulse);
+            RB.AddForce(new Vector3(0,40,0),ForceMode.Impulse);
         }
     }
 }

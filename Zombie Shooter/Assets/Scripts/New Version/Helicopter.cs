@@ -19,7 +19,7 @@ public class Helicopter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (true) //Time.timeSinceLevelLoad > 60 * 10
+        if (Time.timeSinceLevelLoad > 340)
         {
             if (Vector3.Distance(new Vector3(landingZone.position.x, 100, landingZone.position.z),this.transform.position) < 0.3f)
             {

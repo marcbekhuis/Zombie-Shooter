@@ -105,7 +105,7 @@ public class ZombieSpawnerV2 : MonoBehaviour
                         NavMeshHit hit;
                         if (NavMesh.SamplePosition(spawnLocation, out hit, 5, 1))
                         {
-                            spawnLocation = hit.position + new Vector3(0, 4, 0);
+                            spawnLocation = hit.position + new Vector3(0, 5, 0);
                             if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 50 && !Physics.CheckBox(spawnLocation, new Vector3(2, 4, 2)))
                             {
                                 spawned = SpawnZombie(giantZombie, spawnLocation);
