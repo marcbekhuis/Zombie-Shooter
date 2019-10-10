@@ -158,6 +158,7 @@ public class BuildBuilder : MonoBehaviour
         go.gameObject.layer = 8;
     }
 
+    // Spawns the helipad and the helicopter
     Vector2Int SpawnHelipad(int floors, int currentFloor, GameObject currentFloorObject)
     {
         Vector2Int helipadLocation = new Vector2Int(0,0);
@@ -175,6 +176,7 @@ public class BuildBuilder : MonoBehaviour
 
     void SpawnStair(Vector2Int[,] stairsLocations, GameObject currentFloorObject, int currentFloor, int floors, Vector2Int helipadLocation)
     {
+        // Spawns a stair in a way that its not below the helipad
         if (hasHelipad && currentFloor == floors - 1)
         {
             int safety = 0;
@@ -216,6 +218,7 @@ public class BuildBuilder : MonoBehaviour
                 safety++;
             } while (!setSecondStairLoc && safety < 150);
         }
+        // Spawns a stair in a random position and rotation
         else
         {
             stairsLocations[0, 0] = new Vector2Int(Random.Range(0, size.x), Random.Range(0, size.y));
@@ -248,6 +251,7 @@ public class BuildBuilder : MonoBehaviour
             } while (!setSecondStairLoc && safety < 150);
         }
 
+        // Spawns the stair
         if (stairsLocations[0, 0].x + 1 == stairsLocations[0, 1].x)
         {
             GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5 + 2.5f, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5), new Quaternion(0, 0, 0, 0),currentFloorObject.transform);

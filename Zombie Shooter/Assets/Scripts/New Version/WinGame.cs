@@ -19,6 +19,7 @@ public class WinGame : MonoBehaviour
         
     }
 
+    // Activates the win menu.
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

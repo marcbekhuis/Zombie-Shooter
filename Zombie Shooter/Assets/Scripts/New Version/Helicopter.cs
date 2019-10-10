@@ -33,6 +33,7 @@ public class Helicopter : MonoBehaviour
                 aboveDestanation = true;
             }
 
+            // Lowers the helicopter down to the helipad
             if (aboveDestanation && !atDestanation)
             {
                 if (Vector3.Distance(landingZone.position, this.transform.position) < 0.3f)
@@ -54,6 +55,7 @@ public class Helicopter : MonoBehaviour
                     }
                 }
             }
+            // Moves the helicopter to the helipad
             else if (!atDestanation)
             {
                 if (Vector3.Distance(new Vector3(landingZone.position.x, 100, landingZone.position.z), this.transform.position) < 2)

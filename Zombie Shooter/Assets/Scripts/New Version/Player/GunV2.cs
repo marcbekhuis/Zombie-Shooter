@@ -115,6 +115,7 @@ public class GunV2 : MonoBehaviour
         }
     }
 
+    // Adds a clip
     public void AddClip(int bullets)
     {
         GameObject clip = Instantiate(clipUI, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), clipUIHolder);
@@ -122,6 +123,7 @@ public class GunV2 : MonoBehaviour
         UpdateBulletUI();
     }
 
+    // Reloads the gun removing a clip if its empty, setting it to the last in the list if its not.
     public void Reload()
     {
         if (Time.time > _newBulletTimeStamp)
@@ -151,6 +153,7 @@ public class GunV2 : MonoBehaviour
         }
     }
 
+    // Updates the UI with the bullets
     public void UpdateBulletUI()
     {
         int y = 0;

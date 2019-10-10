@@ -85,7 +85,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11104}
     - Class: 114
-      Script: {instanceID: 11456}
+      Script: {instanceID: 11458}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -188,11 +188,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11104}
     - Class: 114
-      Script: {instanceID: 11456}
+      Script: {instanceID: 11398}
     - Class: 114
-      Script: {instanceID: 11508}
+      Script: {instanceID: 11458}
     - Class: 114
-      Script: {instanceID: 17146}
+      Script: {instanceID: 11510}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -291,11 +291,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 11456}
+      Script: {instanceID: 11458}
     - Class: 114
-      Script: {instanceID: 11502}
+      Script: {instanceID: 11504}
     - Class: 114
-      Script: {instanceID: 11508}
+      Script: {instanceID: 11510}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -915,6 +915,12 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
+      Hash: e24a13257e4c5b88738968ab6b93c61e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WinGame
+  - hash:
+      serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1003,12 +1009,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: e24a13257e4c5b88738968ab6b93c61e
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: WinGame
   platform: 5
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
