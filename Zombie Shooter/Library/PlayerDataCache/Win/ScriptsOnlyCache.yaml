@@ -12,6 +12,7 @@ ScriptsOnlyBuild:
     - FollowCamera
     - Gun
     - GunV2
+    - Helicopter
     - LoadScene
     - Map
     - MapGenerator
@@ -24,11 +25,14 @@ ScriptsOnlyBuild:
     - RebuildNavMesh
     - ScoreSystem
     - WallSpawner
+    - WinGame
     - ZombieSpawner
     - ZombieSpawnerV2
     NavMeshComponents.dll:
     - UnityEngine.AI.NavMeshModifierVolume
     - UnityEngine.AI.NavMeshSurface
+    NavMeshComponentsEditor.dll:
+    - UnityEditor.AI.NavMeshAssetManager
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -73,15 +77,15 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10270}
     - Class: 114
-      Script: {instanceID: 10548}
+      Script: {instanceID: 10550}
     - Class: 114
-      Script: {instanceID: 10638}
+      Script: {instanceID: 10640}
     - Class: 114
-      Script: {instanceID: 10722}
+      Script: {instanceID: 10724}
     - Class: 114
-      Script: {instanceID: 11102}
+      Script: {instanceID: 11104}
     - Class: 114
-      Script: {instanceID: 11454}
+      Script: {instanceID: 11456}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -123,6 +127,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
@@ -160,30 +168,36 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10428}
     - Class: 114
-      Script: {instanceID: 10544}
+      Script: {instanceID: 10520}
     - Class: 114
-      Script: {instanceID: 10548}
+      Script: {instanceID: 10546}
     - Class: 114
-      Script: {instanceID: 10638}
+      Script: {instanceID: 10550}
     - Class: 114
-      Script: {instanceID: 10722}
+      Script: {instanceID: 10640}
     - Class: 114
-      Script: {instanceID: 10842}
+      Script: {instanceID: 10724}
     - Class: 114
-      Script: {instanceID: 10866}
+      Script: {instanceID: 10844}
     - Class: 114
-      Script: {instanceID: 10978}
+      Script: {instanceID: 10868}
     - Class: 114
-      Script: {instanceID: 11064}
+      Script: {instanceID: 10980}
     - Class: 114
-      Script: {instanceID: 11102}
+      Script: {instanceID: 11066}
     - Class: 114
-      Script: {instanceID: 11454}
+      Script: {instanceID: 11104}
     - Class: 114
-      Script: {instanceID: 11506}
+      Script: {instanceID: 11456}
+    - Class: 114
+      Script: {instanceID: 11508}
+    - Class: 114
+      Script: {instanceID: 17146}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
+      Script: {instanceID: 0}
+    - Class: 134
       Script: {instanceID: 0}
     - Class: 136
       Script: {instanceID: 0}
@@ -259,29 +273,29 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10404}
     - Class: 114
-      Script: {instanceID: 10544}
+      Script: {instanceID: 10546}
     - Class: 114
-      Script: {instanceID: 10548}
+      Script: {instanceID: 10550}
     - Class: 114
-      Script: {instanceID: 10638}
+      Script: {instanceID: 10640}
     - Class: 114
-      Script: {instanceID: 10722}
+      Script: {instanceID: 10724}
     - Class: 114
-      Script: {instanceID: 10936}
+      Script: {instanceID: 10938}
     - Class: 114
-      Script: {instanceID: 11076}
+      Script: {instanceID: 11078}
     - Class: 114
-      Script: {instanceID: 11094}
+      Script: {instanceID: 11096}
     - Class: 114
-      Script: {instanceID: 11102}
+      Script: {instanceID: 11104}
     - Class: 114
-      Script: {instanceID: 11326}
+      Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 11454}
+      Script: {instanceID: 11456}
     - Class: 114
-      Script: {instanceID: 11500}
+      Script: {instanceID: 11502}
     - Class: 114
-      Script: {instanceID: 11506}
+      Script: {instanceID: 11508}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -385,7 +399,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: 136986ebfadfb7ed4e4d00feac649316
+      Hash: 1506eab0b6e81541e4b1293bffe89270
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BuildBuilder
@@ -583,7 +597,7 @@ ScriptsOnlyBuild:
     className: Oscillator
   - hash:
       serializedVersion: 2
-      Hash: bf01014b9e6ba3998ac06c38abd6432d
+      Hash: e033d8636f002c16fa8f29aaae728e28
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MapGenerator
@@ -619,7 +633,7 @@ ScriptsOnlyBuild:
     className: NavMeshModifierVolume
   - hash:
       serializedVersion: 2
-      Hash: 92506c28c4f86562efcb3e5d4f93e0e5
+      Hash: 4fdbfc3eb55dba7cc614dba934858863
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerV2
@@ -659,6 +673,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 69ce5a9d6922408403571d790f7ef73d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Helicopter
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -793,7 +813,7 @@ ScriptsOnlyBuild:
     className: ZombieSpawner
   - hash:
       serializedVersion: 2
-      Hash: 82e7f076fdc43b99dc6dcfd5a5686c14
+      Hash: 47fbce28c123b6849b2d74d3410e8346
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GunV2
@@ -983,6 +1003,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: e24a13257e4c5b88738968ab6b93c61e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WinGame
   platform: 5
   scenePathNames:
   - Assets/Scenes/MainMenu.unity

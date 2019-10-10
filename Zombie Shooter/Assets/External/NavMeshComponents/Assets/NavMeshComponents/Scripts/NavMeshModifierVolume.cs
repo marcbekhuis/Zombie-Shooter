@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UnityEngine.AI
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     [AddComponentMenu("Navigation/NavMeshModifierVolume", 31)]
     [HelpURL("https://github.com/Unity-Technologies/NavMeshComponents#documentation-draft")]
     public class NavMeshModifierVolume : MonoBehaviour

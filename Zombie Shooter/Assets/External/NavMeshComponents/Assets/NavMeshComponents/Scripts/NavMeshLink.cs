@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UnityEngine.AI
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     [DefaultExecutionOrder(-101)]
     [AddComponentMenu("Navigation/NavMeshLink", 33)]
     [HelpURL("https://github.com/Unity-Technologies/NavMeshComponents#documentation-draft")]

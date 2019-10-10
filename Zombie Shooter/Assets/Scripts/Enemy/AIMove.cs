@@ -24,7 +24,7 @@ public class AIMove : MonoBehaviour
     void Update()
     {
         // Makes the AI move to the player or to it self when the player lost or paused the game.
-        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused && !WinGame.wonGame)
         {
             navMeshAgent.SetDestination(player.position);
         }

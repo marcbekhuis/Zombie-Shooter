@@ -50,7 +50,7 @@ public class EnemyV2 : MonoBehaviour
     // Kills the enemy when touching the player, also removes 1 live from the player.
     private void OnCollisionEnter(Collision collision)
     {
-        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused && !WinGame.wonGame)
         {
             if (collision.gameObject.CompareTag("Player"))
             {

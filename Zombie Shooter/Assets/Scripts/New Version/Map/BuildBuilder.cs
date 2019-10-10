@@ -10,6 +10,8 @@ public class BuildBuilder : MonoBehaviour
 
     public bool hasHelipad = false;
 
+    public GameObject winScreen;
+
     [SerializeField]
     private GameObject floor;
 
@@ -57,8 +59,8 @@ public class BuildBuilder : MonoBehaviour
             int maxDoors = Mathf.Clamp((size.x * 2 + size.y * 2) / 8, 1, 10);
             int doorsPlaced = 0;
 
-            SpawnHelipad(floors,currentFloor,currentFloorObject);
-            SpawnStair(stairsLocations, currentFloorObject);
+            Vector2Int helipadLocation = SpawnHelipad(floors,currentFloor,currentFloorObject);
+            SpawnStair(stairsLocations, currentFloorObject, currentFloor, floors, helipadLocation);
 
             for (int x = 0; x < size.x; x++)
             {
@@ -156,66 +158,114 @@ public class BuildBuilder : MonoBehaviour
         go.gameObject.layer = 8;
     }
 
-    void SpawnHelipad(int floors, int currentFloor, GameObject currentFloorObject)
+    Vector2Int SpawnHelipad(int floors, int currentFloor, GameObject currentFloorObject)
     {
+        Vector2Int helipadLocation = new Vector2Int(0,0);
         if (hasHelipad && currentFloor == floors - 1 && !helipadPlaced)
         {
-            GameObject spawnedHelipad = Instantiate(helipad, new Vector3(currentFloorObject.transform.position.x + 5 * Random.Range(1, size.x - 1), currentFloorObject.transform.position.y + 6.5f, currentFloorObject.transform.position.z + 5 * Random.Range(1, size.y - 1)), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
+            helipadLocation = new Vector2Int(Random.Range(1, size.x - 1), Random.Range(1, size.y - 1));
+            GameObject spawnedHelipad = Instantiate(helipad, new Vector3(currentFloorObject.transform.position.x + 5 * helipadLocation.x, currentFloorObject.transform.position.y + 6.5f, currentFloorObject.transform.position.z + 5 * helipadLocation.y), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
             GameObject spawnedHelicopter = Instantiate(helicopter, new Vector3(Random.Range(700, 1000), 120, Random.Range(700, 1000)), new Quaternion(0, 0, 0, 0));
             spawnedHelicopter.GetComponent<Helicopter>().landingZone = spawnedHelipad.transform;
+            spawnedHelicopter.GetComponent<WinGame>().winScreen = winScreen;
             helipadPlaced = true;
         }
+        return helipadLocation;
     }
 
-    void SpawnStair(Vector2Int[,] stairsLocations, GameObject currentFloorObject)
+    void SpawnStair(Vector2Int[,] stairsLocations, GameObject currentFloorObject, int currentFloor, int floors, Vector2Int helipadLocation)
     {
-        stairsLocations[0, 0] = new Vector2Int(Random.Range(0, size.x), Random.Range(0, size.y));
-        bool setSecondStairLoc = false;
-        int safety = 0;
-        do
+        if (hasHelipad && currentFloor == floors - 1)
         {
-            int randomNumber = Random.Range(0, 100);
-            if (randomNumber < 25 && stairsLocations[0, 0].y < size.y - 2)
+            int safety = 0;
+            bool setFirstStairLoc = false;
+            do
             {
-                stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(0, 1);
-                setSecondStairLoc = true;
-            }
-            else if (randomNumber < 50 && stairsLocations[0, 0].x < size.x - 2)
+                stairsLocations[0, 0] = new Vector2Int(Random.Range(0, size.x), Random.Range(0, size.y));
+                if (!(stairsLocations[0,0] == helipadLocation) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(0,1)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, -1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(-1, 1)))
+                {
+                    setFirstStairLoc = true;
+                }
+                safety++;
+            } while (!setFirstStairLoc && safety < 150);
+            bool setSecondStairLoc = false;
+            safety = 0;
+            do
             {
-                stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(1, 0);
-                setSecondStairLoc = true;
-            }
-            else if (randomNumber < 50 && stairsLocations[0, 0].y > 1)
+                int randomNumber = Random.Range(0, 100);
+                if (randomNumber < 25 && stairsLocations[0, 0].y < size.y - 2 && (!(stairsLocations[0, 0] == helipadLocation) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, -1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(-1, 1))))
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(0, 1);
+                    setSecondStairLoc = true;
+                }
+                else if (randomNumber < 50 && stairsLocations[0, 0].x < size.x - 2 && (!(stairsLocations[0, 0] == helipadLocation) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, -1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(-1, 1))))
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(1, 0);
+                    setSecondStairLoc = true;
+                }
+                else if (randomNumber < 50 && stairsLocations[0, 0].y > 1 && (!(stairsLocations[0, 0] == helipadLocation) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, -1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(-1, 1))))
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(0, 1);
+                    setSecondStairLoc = true;
+                }
+                else if (stairsLocations[0, 0].x > 1 && (!(stairsLocations[0, 0] == helipadLocation) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation - new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(0, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 0)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, 1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(1, -1)) || !(stairsLocations[0, 0] == helipadLocation + new Vector2Int(-1, 1))))
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(1, 0);
+                    setSecondStairLoc = true;
+                }
+                safety++;
+            } while (!setSecondStairLoc && safety < 150);
+        }
+        else
+        {
+            stairsLocations[0, 0] = new Vector2Int(Random.Range(0, size.x), Random.Range(0, size.y));
+            bool setSecondStairLoc = false;
+            int safety = 0;
+            do
             {
-                stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(0, 1);
-                setSecondStairLoc = true;
-            }
-            else if (stairsLocations[0, 0].x > 1)
-            {
-                stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(1, 0);
-                setSecondStairLoc = true;
-            }
-            safety++;
-        } while (!setSecondStairLoc && safety < 150);
+                int randomNumber = Random.Range(0, 100);
+                if (randomNumber < 25 && stairsLocations[0, 0].y < size.y - 2)
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(0, 1);
+                    setSecondStairLoc = true;
+                }
+                else if (randomNumber < 50 && stairsLocations[0, 0].x < size.x - 2)
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] + new Vector2Int(1, 0);
+                    setSecondStairLoc = true;
+                }
+                else if (randomNumber < 50 && stairsLocations[0, 0].y > 1)
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(0, 1);
+                    setSecondStairLoc = true;
+                }
+                else if (stairsLocations[0, 0].x > 1)
+                {
+                    stairsLocations[0, 1] = stairsLocations[0, 0] - new Vector2Int(1, 0);
+                    setSecondStairLoc = true;
+                }
+                safety++;
+            } while (!setSecondStairLoc && safety < 150);
+        }
 
         if (stairsLocations[0, 0].x + 1 == stairsLocations[0, 1].x)
         {
-            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5 + 2.5f, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5), new Quaternion(0, 0, 0, 0));
+            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5 + 2.5f, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5), new Quaternion(0, 0, 0, 0),currentFloorObject.transform);
             spawnedStair.transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else if (stairsLocations[0, 0].x - 1 == stairsLocations[0, 1].x)
         {
-            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5 - 2.5f, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5), new Quaternion(0, 0, 0, 0));
+            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5 - 2.5f, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
             spawnedStair.transform.eulerAngles = new Vector3(0, 180, 0);
         }
         else if (stairsLocations[0, 0].y + 1 == stairsLocations[0, 1].y)
         {
-            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5 + 2.5f), new Quaternion(0, 0, 0, 0));
+            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5 + 2.5f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
             spawnedStair.transform.eulerAngles = new Vector3(0, 90, 0);
         }
         else
         {
-            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5 - 2.5f), new Quaternion(0, 0, 0, 0));
+            GameObject spawnedStair = Instantiate(stair, new Vector3(currentFloorObject.transform.position.x + stairsLocations[0, 0].x * 5, currentFloorObject.transform.position.y + 0, currentFloorObject.transform.position.z + stairsLocations[0, 0].y * 5 - 2.5f), new Quaternion(0, 0, 0, 0), currentFloorObject.transform);
             spawnedStair.transform.eulerAngles = new Vector3(0, -90, 0);
         }
     }

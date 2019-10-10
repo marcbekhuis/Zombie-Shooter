@@ -45,7 +45,7 @@ public class PlayerV2 : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealthV2.gameOver && !PauseMenuToggle.gamePaused && !WinGame.wonGame)
         {
             Move();
             Rotate();

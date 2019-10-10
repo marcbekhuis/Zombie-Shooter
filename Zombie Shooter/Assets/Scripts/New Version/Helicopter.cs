@@ -7,9 +7,11 @@ public class Helicopter : MonoBehaviour
     public Transform landingZone;
 
     [SerializeField] private float speed = 10;
+    [SerializeField] private AudioSource helicopterSource;
 
     private bool aboveDestanation = false;
     private bool atDestanation = false;
+    private bool soundStarted = false;
 
     private void Start()
     {
@@ -21,6 +23,11 @@ public class Helicopter : MonoBehaviour
     {
         if (Time.timeSinceLevelLoad > 340)
         {
+            if (!soundStarted)
+            {
+                helicopterSource.Play();
+                soundStarted = true;
+            }
             if (Vector3.Distance(new Vector3(landingZone.position.x, 100, landingZone.position.z),this.transform.position) < 0.3f)
             {
                 aboveDestanation = true;
@@ -30,6 +37,7 @@ public class Helicopter : MonoBehaviour
             {
                 if (Vector3.Distance(landingZone.position, this.transform.position) < 0.3f)
                 {
+                    helicopterSource.Stop();
                     atDestanation = true;
                 }
                 else

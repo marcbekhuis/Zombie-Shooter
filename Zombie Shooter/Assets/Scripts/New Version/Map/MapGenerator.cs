@@ -20,6 +20,9 @@ public class MapGenerator : MonoBehaviour
     private GameObject pushAbleCube;
 
     [SerializeField]
+    private GameObject winScreen;
+
+    [SerializeField]
     private int buildingMaxFloors = 3;
 
     [SerializeField]
@@ -106,6 +109,7 @@ public class MapGenerator : MonoBehaviour
         if (!helipadSet && ((size.x > 2 && size.y > 3) || (size.x > 3 && size.y > 2)))
         {
             buildBuilder.hasHelipad = true;
+            buildBuilder.winScreen = winScreen;
             helipadSet = true;
         }
     }

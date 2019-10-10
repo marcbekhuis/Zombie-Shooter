@@ -49,7 +49,7 @@ public class ZombieSpawnerV2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused)
+        if (!PlayerHealth.gameOver && !PauseMenuToggle.gamePaused && !WinGame.wonGame)
         {
             // Spawns random diffeculty zombie based on the time the game has been running, on a random tile when the cooldown is done.
             if (Time.time > cooldown)
@@ -61,7 +61,7 @@ public class ZombieSpawnerV2 : MonoBehaviour
                     {
                         Vector3 spawnLocation = new Vector3(Random.Range(player.transform.position.x - 100, player.transform.position.x + 100), 3, Random.Range(player.transform.position.z - 100, player.transform.position.z + 100));
                         NavMeshHit hit;
-                        if (NavMesh.SamplePosition(spawnLocation, out hit, 5, 1))
+                        if (NavMesh.SamplePosition(spawnLocation, out hit, 10, 1))
                         {
                             spawnLocation = hit.position + new Vector3(0, 2, 0);
                             if (Random.Range(0, 100) < 90)
@@ -103,7 +103,7 @@ public class ZombieSpawnerV2 : MonoBehaviour
                         // Spawns A Giant Zombie.
                         Vector3 spawnLocation = new Vector3(Random.Range(player.transform.position.x - 100, player.transform.position.x + 100), 7, Random.Range(player.transform.position.z - 100, player.transform.position.z + 100));
                         NavMeshHit hit;
-                        if (NavMesh.SamplePosition(spawnLocation, out hit, 5, 1))
+                        if (NavMesh.SamplePosition(spawnLocation, out hit, 15, 1))
                         {
                             spawnLocation = hit.position + new Vector3(0, 5, 0);
                             if (Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(spawnLocation.x, spawnLocation.z)) > 50 && !Physics.CheckBox(spawnLocation, new Vector3(2, 4, 2)))
